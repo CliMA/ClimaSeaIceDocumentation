@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Dynamics and Rheology · ClimaSeaIce.jl</title><meta name="title" content="Dynamics and Rheology · ClimaSeaIce.jl"/><meta property="og:title" content="Dynamics and Rheology · ClimaSeaIce.jl"/><meta property="twitter:title" content="Dynamics and Rheology · ClimaSeaIce.jl"/><meta name="description" content="Documentation for ClimaSeaIce.jl."/><meta property="og:description" content="Documentation for ClimaSeaIce.jl."/><meta property="twitter:description" content="Documentation for ClimaSeaIce.jl."/><meta property="og:url" content="https://clima.github.io/ClimaSeaIceDocumentation/dev/physics/dynamics_and_rheology/"/><meta property="twitter:url" content="https://clima.github.io/ClimaSeaIceDocumentation/dev/physics/dynamics_and_rheology/"/><link rel="canonical" href="https://clima.github.io/ClimaSeaIceDocumentation/dev/physics/dynamics_and_rheology/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">ClimaSeaIce.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Physics</span><ul><li><a class="tocitem" href="../thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../layered_snow_ice_implementation/">Layered snow + ice implementation</a></li><li class="is-active"><a class="tocitem" href>Dynamics and Rheology</a><ul class="internal"><li><a class="tocitem" href="#The-momentum-equation"><span>The momentum equation</span></a></li><li><a class="tocitem" href="#Setting-up-ice-dynamics"><span>Setting up ice dynamics</span></a></li><li><a class="tocitem" href="#External-stresses"><span>External stresses</span></a></li><li><a class="tocitem" href="#Rheology:-how-ice-deforms"><span>Rheology: how ice deforms</span></a></li><li><a class="tocitem" href="#Momentum-solvers"><span>Momentum solvers</span></a></li><li><a class="tocitem" href="#Complete-example"><span>Complete example</span></a></li></ul></li></ul></li><li><span class="tocitem">Examples</span><ul><li><a class="tocitem" href="../../literated/freezing_bucket/">Freezing bucket</a></li><li><a class="tocitem" href="../../literated/melting_in_spring/">Melting in Spring</a></li><li><a class="tocitem" href="../../literated/freezing_of_a_lake/">Freezing of a Lake</a></li><li><a class="tocitem" href="../../literated/ice_advected_by_anticyclone/">Ice advected by anticyclone</a></li><li><a class="tocitem" href="../../literated/ice_advected_on_coastline/">Ice advected on coastline</a></li><li><a class="tocitem" href="../../literated/arctic_basin_seasonal_cycle/">Arctic basin seasonal cycle</a></li></ul></li><li><a class="tocitem" href="../../timestepping/">Timestepping</a></li><li><span class="tocitem">Library</span><ul><li><a class="tocitem" href="../../library/outline/">Contents</a></li><li><a class="tocitem" href="../../library/public/">Public</a></li><li><a class="tocitem" href="../../library/internals/">Private</a></li><li><a class="tocitem" href="../../library/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Physics</a></li><li class="is-active"><a href>Dynamics and Rheology</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Dynamics and Rheology</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/ClimaSeaIce.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/ClimaSeaIce.jl/blob/main/docs/src/physics/dynamics_and_rheology.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Sea-Ice-Dynamics-and-Rheology"><a class="docs-heading-anchor" href="#Sea-Ice-Dynamics-and-Rheology">Sea Ice Dynamics and Rheology</a><a id="Sea-Ice-Dynamics-and-Rheology-1"></a><a class="docs-heading-anchor-permalink" href="#Sea-Ice-Dynamics-and-Rheology" title="Permalink"></a></h1><p>Sea ice dynamics describes the horizontal motion of ice in response to wind stress, ocean currents, Coriolis forces, and internal stresses arising from ice-ice interactions. The <strong>rheology</strong> determines how sea ice deforms and transmits stress—a crucial ingredient for capturing the characteristic fractures, leads, and ridges observed in real sea ice.</p><h2 id="The-momentum-equation"><a class="docs-heading-anchor" href="#The-momentum-equation">The momentum equation</a><a id="The-momentum-equation-1"></a><a class="docs-heading-anchor-permalink" href="#The-momentum-equation" title="Permalink"></a></h2><p>The sea ice momentum equation describes the balance of forces acting on an ice element:</p><p class="math-container">\[\frac{\partial \boldsymbol{u}}{\partial t} + \boldsymbol{f} \times \boldsymbol{u} =
+    \frac{1}{m_i} \boldsymbol{\nabla} \cdot \boldsymbol{\sigma} +
+    \frac{\boldsymbol{\tau}_a}{m_i} + \frac{\boldsymbol{\tau}_o}{m_i}\]</p><p>where:</p><ul><li><span>$\boldsymbol{u} = (u, v)$</span> is the ice velocity</li><li><span>$\boldsymbol{f}$</span> is the Coriolis parameter</li><li><span>$m_i = \rho_i h \aleph$</span> is the ice mass per unit area (density × thickness × concentration)</li><li><span>$\boldsymbol{\sigma}$</span> is the internal stress tensor</li><li><span>$\boldsymbol{\tau}_a$</span> is the atmospheric stress (wind drag)</li><li><span>$\boldsymbol{\tau}_o$</span> is the oceanic stress (water drag)</li></ul><p>The divergence of the stress tensor, <span>$\boldsymbol{\nabla} \cdot \boldsymbol{\sigma}$</span>, represents internal forces arising from ice deformation.</p><h2 id="Setting-up-ice-dynamics"><a class="docs-heading-anchor" href="#Setting-up-ice-dynamics">Setting up ice dynamics</a><a id="Setting-up-ice-dynamics-1"></a><a class="docs-heading-anchor-permalink" href="#Setting-up-ice-dynamics" title="Permalink"></a></h2><p>The <a href="../../library/public/#ClimaSeaIce.SeaIceDynamics.SeaIceMomentumEquation-Tuple{Any}"><code>SeaIceMomentumEquation</code></a> struct configures the dynamical components:</p><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans.Units
+using ClimaSeaIce
+using ClimaSeaIce.SeaIceDynamics: SeaIceMomentumEquation, SemiImplicitStress
+
+L = 512kilometers
+grid = RectilinearGrid(size = (64, 64),
+                       x = (0, L),
+                       y = (0, L),
+                       topology = (Bounded, Bounded, Flat))
+
+# Ocean velocity field for ice-ocean drag
+Uₒ = XFaceField(grid)
+Vₒ = YFaceField(grid)
+
+# Cyclonic pattern; ∂u/∂y + ∂v/∂x = 0
+𝓋ₒ = 0.01 # m/s
+set!(Uₒ, (x, y) -&gt; 𝓋ₒ * (2y - L) / L)
+set!(Vₒ, (x, y) -&gt; 𝓋ₒ * (L - 2x) / L)
+
+dynamics = SeaIceMomentumEquation(grid;
+    coriolis = FPlane(f = 1e-4),
+    bottom_momentum_stress = SemiImplicitStress(uₑ = Uₒ, vₑ = Vₒ))
+
+dynamics</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">SeaIceMomentumEquation
+├── coriolis: FPlane{Float64}(f=0.0001)
+├── rheology: ElastoViscoPlasticRheology{Float64, ClimaSeaIce.Rheologies.ReplacementPressure}
+├── auxiliaries: σ₁₁, σ₂₂, σ₁₂, ζᶠᶠᶜ, ζᶜᶜᶜ, Δ, α, uⁿ, vⁿ, P
+├── solver: SplitExplicitSolver{Int64, Symbol}
+├── free_drift: nothing
+├── external_momentum_stresses: (:top, :bottom)
+├── minimum_concentration: 0.001
+└── minimum_mass: 1.0</code></pre><h2 id="External-stresses"><a class="docs-heading-anchor" href="#External-stresses">External stresses</a><a id="External-stresses-1"></a><a class="docs-heading-anchor-permalink" href="#External-stresses" title="Permalink"></a></h2><h3 id="Semi-implicit-stress-formulation"><a class="docs-heading-anchor" href="#Semi-implicit-stress-formulation">Semi-implicit stress formulation</a><a id="Semi-implicit-stress-formulation-1"></a><a class="docs-heading-anchor-permalink" href="#Semi-implicit-stress-formulation" title="Permalink"></a></h3><p>The ice experiences drag from both the atmosphere above and the ocean below. The <a href="../../library/public/#ClimaSeaIce.SeaIceDynamics.SemiImplicitStress"><code>SemiImplicitStress</code></a> implements a quadratic drag law:</p><p class="math-container">\[\tau_u = \rho_e C_D \sqrt{(u_e - u_i^n)^2 + (v_e - v_i^n)^2} (u_e - u_i^{n+1})\]</p><p class="math-container">\[\tau_v = \rho_e C_D \sqrt{(u_e - u_i^n)^2 + (v_e - v_i^n)^2} (v_e - v_i^{n+1})\]</p><p>where <span>$\rho_e$</span> is the external fluid density, <span>$C_D$</span> is the drag coefficient, <span>$(u_e, v_e)$</span> are the external (ocean or atmosphere) velocities, and <span>$(u_i, v_i)$</span> are the ice velocities.</p><p>The &quot;semi-implicit&quot; treatment uses velocities from the current time step (<span>$n$</span>) to compute the magnitude, while the velocity difference uses the new time step (<span>$n+1$</span>), improving numerical stability.</p><pre><code class="language-julia hljs">using ClimaSeaIce.SeaIceDynamics: SemiImplicitStress
+
+# Ocean drag (default parameters for seawater)
+ocean_stress = SemiImplicitStress(
+    uₑ = Uₒ,
+    vₑ = Vₒ,
+    ρₑ = 1026.0,  # seawater density [kg/m³]
+    Cᴰ = 5.5e-3   # drag coefficient
+)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">SemiImplicitStress
+├── τᵢᵤ: Nothing
+├── τᵢᵥ: Nothing
+├── uₑ:  65×64×1 Field{Oceananigans.Grids.Face, Oceananigans.Grids.Center, Oceananigans.Grids.Center} on Oceananigans.Grids.RectilinearGrid on CPU
+├── vₑ:  64×65×1 Field{Oceananigans.Grids.Center, Oceananigans.Grids.Face, Oceananigans.Grids.Center} on Oceananigans.Grids.RectilinearGrid on CPU
+├── ρₑ:  1026.0
+└── Cᴰ:  0.0055</code></pre><p>For atmospheric stress, use lower density and appropriate drag coefficient:</p><pre><code class="language-julia hljs">Uₐ = XFaceField(grid)
+Vₐ = YFaceField(grid)
+
+atm_stress = SemiImplicitStress(
+    uₑ = Uₐ,
+    vₑ = Vₐ,
+    ρₑ = 1.3,     # air density [kg/m³]
+    Cᴰ = 1.2e-3   # air-ice drag coefficient
+)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">SemiImplicitStress
+├── τᵢᵤ: Nothing
+├── τᵢᵥ: Nothing
+├── uₑ:  65×64×1 Field{Oceananigans.Grids.Face, Oceananigans.Grids.Center, Oceananigans.Grids.Center} on Oceananigans.Grids.RectilinearGrid on CPU
+├── vₑ:  64×65×1 Field{Oceananigans.Grids.Center, Oceananigans.Grids.Face, Oceananigans.Grids.Center} on Oceananigans.Grids.RectilinearGrid on CPU
+├── ρₑ:  1.3
+└── Cᴰ:  0.0012</code></pre><h2 id="Rheology:-how-ice-deforms"><a class="docs-heading-anchor" href="#Rheology:-how-ice-deforms">Rheology: how ice deforms</a><a id="Rheology:-how-ice-deforms-1"></a><a class="docs-heading-anchor-permalink" href="#Rheology:-how-ice-deforms" title="Permalink"></a></h2><p>The rheology determines the relationship between ice deformation (strain rates) and internal stresses. Sea ice exhibits complex mechanical behavior: it can flow viscously under slow deformation, fracture plastically under large stresses, and respond elastically on short timescales.</p><h3 id="The-stress-tensor"><a class="docs-heading-anchor" href="#The-stress-tensor">The stress tensor</a><a id="The-stress-tensor-1"></a><a class="docs-heading-anchor-permalink" href="#The-stress-tensor" title="Permalink"></a></h3><p>The internal stress tensor <span>$\boldsymbol{\sigma}$</span> is a function of the strain rate tensor <span>$\dot{\boldsymbol{\varepsilon}}$</span>:</p><p class="math-container">\[\sigma_{ij} = \sigma_{ij}(\dot{\varepsilon}_{kl})\]</p><p>The strain rates are computed from velocity gradients:</p><p class="math-container">\[\dot{\varepsilon}_{11} = \frac{\partial u}{\partial x}, \quad
+\dot{\varepsilon}_{22} = \frac{\partial v}{\partial y}, \quad
+\dot{\varepsilon}_{12} = \frac{1}{2}\left(\frac{\partial u}{\partial y} + \frac{\partial v}{\partial x}\right)\]</p><p>The specific form of <span>$\sigma_{ij}(\dot{\varepsilon}_{kl})$</span> depends on the chosen rheology.</p><h3 id="Viscous-rheology"><a class="docs-heading-anchor" href="#Viscous-rheology">Viscous rheology</a><a id="Viscous-rheology-1"></a><a class="docs-heading-anchor-permalink" href="#Viscous-rheology" title="Permalink"></a></h3><p>The simplest rheology is purely viscous, where stress is linearly proportional to strain rate:</p><p class="math-container">\[\sigma_{ij} = 2\nu \dot{\varepsilon}_{ij}\]</p><p>with constant viscosity <span>$\nu$</span>.</p><pre><code class="language-julia hljs">using ClimaSeaIce.Rheologies: ViscousRheology
+
+# Viscous rheology with ν = 1000 m²/s
+rheology = ViscousRheology(ν = 1000.0)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">ViscousRheology{Float64}(1000.0)</code></pre><p>This is computationally simple but doesn&#39;t capture the plastic behavior that creates realistic ice features like leads and ridges.</p><h3 id="Elasto-Visco-Plastic-(EVP)-rheology"><a class="docs-heading-anchor" href="#Elasto-Visco-Plastic-(EVP)-rheology">Elasto-Visco-Plastic (EVP) rheology</a><a id="Elasto-Visco-Plastic-(EVP)-rheology-1"></a><a class="docs-heading-anchor-permalink" href="#Elasto-Visco-Plastic-(EVP)-rheology" title="Permalink"></a></h3><p>The <a href="../../library/public/#ClimaSeaIce.Rheologies.ElastoViscoPlasticRheology"><code>ElastoViscoPlasticRheology</code></a> is the workhorse for realistic sea ice simulations.</p><p>Physically, sea ice behaves as a <strong>visco-plastic</strong> material: it creeps viscously under low stress and yields plastically when stress exceeds a threshold. However, solving the visco-plastic equations directly requires implicit nonlinear solvers, which are computationally expensive.</p><p>The EVP method introduces a small amount of <strong>artificial elasticity</strong> as a numerical device. This elasticity allows the stress equations to be subcycled explicitly within each time step, iterating toward the visco-plastic solution. When sufficiently converged, the elastic terms vanish and the solution satisfies the true visco-plastic rheology.</p><h4 id="The-constitutive-relation"><a class="docs-heading-anchor" href="#The-constitutive-relation">The constitutive relation</a><a id="The-constitutive-relation-1"></a><a class="docs-heading-anchor-permalink" href="#The-constitutive-relation" title="Permalink"></a></h4><p>The EVP rheology uses the following stress-strain relationship:</p><p class="math-container">\[\sigma_{ij} = 2\eta \dot{\varepsilon}_{ij} + \left[(\zeta - \eta)(\dot{\varepsilon}_{11} + \dot{\varepsilon}_{22}) - \frac{P}{2}\right] \delta_{ij}\]</p><p>where:</p><ul><li><span>$\dot{\varepsilon}_{ij}$</span> is the strain rate tensor</li><li><span>$\eta$</span> is the shear viscosity</li><li><span>$\zeta$</span> is the bulk viscosity</li><li><span>$P$</span> is the ice strength (pressure)</li><li><span>$\delta_{ij}$</span> is the Kronecker delta</li></ul><p>The shear stress (<span>$\sigma_{12}$</span>) depends only on the shear viscosity <span>$\eta$</span>, while the normal stresses (<span>$\sigma_{11}$</span>, <span>$\sigma_{22}$</span>) depend on both viscosities and the ice strength.</p><h4 id="Ice-strength"><a class="docs-heading-anchor" href="#Ice-strength">Ice strength</a><a id="Ice-strength-1"></a><a class="docs-heading-anchor-permalink" href="#Ice-strength" title="Permalink"></a></h4><p>The ice strength <span>$P$</span> determines when plastic yielding occurs:</p><p class="math-container">\[P = P_\star h \exp\left[-C(1 - \aleph)\right]\]</p><p>where:</p><ul><li><span>$P_\star$</span> is the compressive strength parameter (default: 27,500 N/m²)</li><li><span>$h$</span> is the ice thickness</li><li><span>$C$</span> is the compaction hardening exponent (default: 20)</li><li><span>$\aleph$</span> is the ice concentration</li></ul><p>Thick, compact ice is strong; thin, sparse ice is weak.</p><h4 id="The-yield-curve"><a class="docs-heading-anchor" href="#The-yield-curve">The yield curve</a><a id="The-yield-curve-1"></a><a class="docs-heading-anchor-permalink" href="#The-yield-curve" title="Permalink"></a></h4><p>Stresses cannot exceed the <strong>yield curve</strong>, an ellipse in stress space with eccentricity <span>$e$</span>:</p><p class="math-container">\[\frac{\sigma_I^2}{P^2} + \frac{\sigma_{II}^2}{(P/e)^2} = 1\]</p><p>where <span>$\sigma_I$</span> and <span>$\sigma_{II}$</span> are principal stresses. The default eccentricity <span>$e = 2$</span> means ice yields more easily under shear than compression.</p><h4 id="Viscosities"><a class="docs-heading-anchor" href="#Viscosities">Viscosities</a><a id="Viscosities-1"></a><a class="docs-heading-anchor-permalink" href="#Viscosities" title="Permalink"></a></h4><p>The bulk and shear viscosities are computed from the ice strength and a visco-plastic parameter <span>$\Delta$</span>:</p><p class="math-container">\[\zeta = \frac{P}{2\Delta}, \quad \eta = \frac{\zeta}{e^2}\]</p><p>where:</p><p class="math-container">\[\Delta = \sqrt{\delta^2 + e^{-2} s^2}\]</p><p>with <span>$\delta = \dot{\varepsilon}_{11} + \dot{\varepsilon}_{22}$</span> (divergence) and <span>$s = \sqrt{(\dot{\varepsilon}_{11} - \dot{\varepsilon}_{22})^2 + 4\dot{\varepsilon}_{12}^2}$</span> (shear).</p><p>A minimum <span>$\Delta_{\min}$</span> prevents infinite viscosities in quiescent regions.</p><pre><code class="language-julia hljs">using ClimaSeaIce.Rheologies: ElastoViscoPlasticRheology
+
+rheology = ElastoViscoPlasticRheology(
+    ice_compressive_strength = 27500,  # P* [N/m²]
+    ice_compaction_hardening = 20,     # C
+    yield_curve_eccentricity = 2,      # e
+    minimum_plastic_stress = 2e-9      # Δ_min
+)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">ElastoViscoPlasticRheology{Float64}
+├── ice_compressive_strength: 27500.0
+├── ice_compaction_hardening: 20.0
+├── yield_curve_eccentricity: 2.0
+├── minimum_plastic_stress: 2.0e-9
+├── min_relaxation_parameter: 50.0
+├── max_relaxation_parameter: 300.0
+├── relaxation_strength: 9.869604401089358
+└── pressure_formulation: ClimaSeaIce.Rheologies.ReplacementPressure</code></pre><h4 id="Dynamic-substepping"><a class="docs-heading-anchor" href="#Dynamic-substepping">Dynamic substepping</a><a id="Dynamic-substepping-1"></a><a class="docs-heading-anchor-permalink" href="#Dynamic-substepping" title="Permalink"></a></h4><p>The EVP formulation uses dynamic substepping following Kimmritz et al. (2016). Rather than fixed substeps, a spatially-varying relaxation parameter <span>$\alpha$</span> accelerates convergence where the ice is weak and allows slower relaxation where it is strong:</p><p class="math-container">\[\sigma_{ij}^{p+1} = \sigma_{ij}^{p} + \frac{\sigma_{ij}^{p+1} - \sigma_{ij}^{p}}{\alpha}\]</p><p>The relaxation parameter is computed from a stability criterion:</p><p class="math-container">\[\alpha = \text{clamp}\left(\sqrt{\frac{\zeta c_\alpha \Delta t}{m_i A_z}}, \alpha^-, \alpha^+\right)\]</p><p>where <span>$c_\alpha$</span> controls the relaxation strength and <span>$\alpha^-$</span>, <span>$\alpha^+$</span> are the minimum and maximum bounds.</p><pre><code class="language-julia hljs">using ClimaSeaIce.Rheologies: ElastoViscoPlasticRheology
+
+# Full EVP configuration
+rheology = ElastoViscoPlasticRheology(
+    ice_compressive_strength = 27500,
+    ice_compaction_hardening = 20,
+    yield_curve_eccentricity = 2,
+    minimum_plastic_stress = 2e-9,
+    min_relaxation_parameter = 50,   # α⁻
+    max_relaxation_parameter = 300,  # α⁺
+    relaxation_strength = π^2        # c_α
+)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">ElastoViscoPlasticRheology{Float64}
+├── ice_compressive_strength: 27500.0
+├── ice_compaction_hardening: 20.0
+├── yield_curve_eccentricity: 2.0
+├── minimum_plastic_stress: 2.0e-9
+├── min_relaxation_parameter: 50.0
+├── max_relaxation_parameter: 300.0
+├── relaxation_strength: 9.869604401089358
+└── pressure_formulation: ClimaSeaIce.Rheologies.ReplacementPressure</code></pre><h2 id="Momentum-solvers"><a class="docs-heading-anchor" href="#Momentum-solvers">Momentum solvers</a><a id="Momentum-solvers-1"></a><a class="docs-heading-anchor-permalink" href="#Momentum-solvers" title="Permalink"></a></h2><h3 id="Split-explicit-solver"><a class="docs-heading-anchor" href="#Split-explicit-solver">Split-explicit solver</a><a id="Split-explicit-solver-1"></a><a class="docs-heading-anchor-permalink" href="#Split-explicit-solver" title="Permalink"></a></h3><p>The default <a href="../../library/public/#ClimaSeaIce.SeaIceDynamics.SplitExplicitSolver-Tuple{Oceananigans.Grids.AbstractGrid}"><code>SplitExplicitSolver</code></a> subcycles the momentum equation within each thermodynamic time step. This is necessary because the EVP rheology requires many iterations to converge:</p><pre><code class="language-julia hljs">using ClimaSeaIce.SeaIceDynamics: SplitExplicitSolver
+
+# 150 momentum substeps per time step
+solver = SplitExplicitSolver(grid; substeps = 150)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">SplitExplicitSolver{Int64, Symbol}(150, :xy)</code></pre><p>The solver iterates:</p><ol><li>Compute strain rates from current velocities</li><li>Update viscosities and ice strength</li><li>Compute stresses using the EVP relaxation</li><li>Update velocities from the momentum equation</li></ol><h3 id="Explicit-solver"><a class="docs-heading-anchor" href="#Explicit-solver">Explicit solver</a><a id="Explicit-solver-1"></a><a class="docs-heading-anchor-permalink" href="#Explicit-solver" title="Permalink"></a></h3><p>For simpler rheologies (like viscous), a single explicit update per time step suffices:</p><pre><code class="language-julia hljs">using ClimaSeaIce.SeaIceDynamics: ExplicitSolver
+
+solver = ExplicitSolver()</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">ExplicitSolver()</code></pre><h2 id="Complete-example"><a class="docs-heading-anchor" href="#Complete-example">Complete example</a><a id="Complete-example-1"></a><a class="docs-heading-anchor-permalink" href="#Complete-example" title="Permalink"></a></h2><p>Here&#39;s a complete setup for ice dynamics with EVP rheology:</p><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans.Units
+using ClimaSeaIce
+using ClimaSeaIce.SeaIceDynamics: SeaIceMomentumEquation, SemiImplicitStress
+
+Lx = Ly = 512kilometers
+grid = RectilinearGrid(size = (64, 64),
+                       x = (0, Lx),
+                       y = (0, Ly),
+                       topology = (Bounded, Bounded, Flat))
+
+# Ocean drag
+Uₒ = XFaceField(grid)
+Vₒ = YFaceField(grid)
+set!(Uₒ, (x, y) -&gt; 0.01 * (2y - 512e3) / 512e3)
+set!(Vₒ, (x, y) -&gt; 0.01 * (512e3 - 2x) / 512e3)
+
+# Atmospheric stress fields (to be updated during simulation)
+τₐu = XFaceField(grid)
+τₐv = YFaceField(grid)
+
+dynamics = SeaIceMomentumEquation(grid;
+    coriolis = FPlane(f = 1e-4),
+    rheology = ElastoViscoPlasticRheology(),
+    solver = SplitExplicitSolver(grid; substeps = 150),
+    top_momentum_stress = (u = τₐu, v = τₐv),
+    bottom_momentum_stress = SemiImplicitStress(uₑ = Uₒ, vₑ = Vₒ)
+)
+
+model = SeaIceModel(grid;
+    dynamics = dynamics,
+    ice_thermodynamics = nothing,  # Pure dynamics
+    advection = WENO(order = 7))
+
+set!(model, h = 0.3, ℵ = 1.0)
+
+model</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">SeaIceModel{Oceananigans.Architectures.CPU, Oceananigans.Grids.RectilinearGrid}(time = 0 seconds, iteration = 0)
+├── grid: 64×64×1 RectilinearGrid{Float64, Bounded, Bounded, Flat} on CPU with 3×3×0 halo
+├── timestepper: SplitRungeKuttaTimeStepper(3)
+├── ice_thermodynamics: Nothing
+├── snow_thermodynamics: Nothing
+├── advection: WENO{4, Float64, Oceananigans.Utils.BackendOptimizedDivision}(order=7)
+└── external_heat_fluxes: 
+    ├── top: Nothing
+    └── bottom: Int64</code></pre><p>This configuration produces realistic ice deformation patterns including linear kinematic features (LKFs) that form when ice fractures under stress.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../layered_snow_ice_implementation/">« Layered snow + ice implementation</a><a class="docs-footer-nextpage" href="../../literated/freezing_bucket/">Freezing bucket »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Saturday 6 June 2026 08:07">Saturday 6 June 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

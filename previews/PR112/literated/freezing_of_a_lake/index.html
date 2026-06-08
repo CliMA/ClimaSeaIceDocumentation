@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Freezing of a Lake · ClimaSeaIce.jl</title><meta name="title" content="Freezing of a Lake · ClimaSeaIce.jl"/><meta property="og:title" content="Freezing of a Lake · ClimaSeaIce.jl"/><meta property="twitter:title" content="Freezing of a Lake · ClimaSeaIce.jl"/><meta name="description" content="Documentation for ClimaSeaIce.jl."/><meta property="og:description" content="Documentation for ClimaSeaIce.jl."/><meta property="twitter:description" content="Documentation for ClimaSeaIce.jl."/><meta property="og:url" content="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/freezing_of_a_lake/"/><meta property="twitter:url" content="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/freezing_of_a_lake/"/><link rel="canonical" href="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/freezing_of_a_lake/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">ClimaSeaIce.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Examples</span><ul><li><a class="tocitem" href="../freezing_bucket/">Freezing bucket</a></li><li><a class="tocitem" href="../melting_in_spring/">Melting in Spring</a></li><li class="is-active"><a class="tocitem" href>Freezing of a Lake</a></li><li><a class="tocitem" href="../ice_advected_by_anticyclone/">Ice advected by anticyclone</a></li><li><a class="tocitem" href="../arctic_basin_seasonal_cycle/">Arctic basin seasonal cycle</a></li></ul></li><li><a class="tocitem" href="../../timestepping/">Timestepping</a></li><li><span class="tocitem">Library</span><ul><li><a class="tocitem" href="../../library/outline/">Contents</a></li><li><a class="tocitem" href="../../library/public/">Public</a></li><li><a class="tocitem" href="../../library/internals/">Private</a></li><li><a class="tocitem" href="../../library/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Freezing of a Lake</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Freezing of a Lake</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/ClimaSeaIce.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/ClimaSeaIce.jl/blob/main/examples/freezing_of_a_lake.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Freezing-of-a-lake"><a class="docs-heading-anchor" href="#Freezing-of-a-lake">Freezing of a lake</a><a id="Freezing-of-a-lake-1"></a><a class="docs-heading-anchor-permalink" href="#Freezing-of-a-lake" title="Permalink"></a></h1><p>In this example we simulate the freezing of a lake in winter. The lake is represented by four points that start at 1ᵒC and are cooled down by an atmosphere with temperatures of -20, -10, -1, and -0.1ᵒC. The lake is 10 m deep and not subjected to radiative transfer (this lake is covered in a wind tunnel under which we blow some cold air).</p><p>We start by <code>using Oceananigans</code> to bring in functions for building grids and <code>Simulation</code>s and the like.</p><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans.Units
+using ClimaSeaIce
+using ClimaSeaIce.SeaIceThermodynamics: latent_heat
+using CairoMakie</code></pre><p>Generate a 1D grid for difference ice columns subject to different solar insolation</p><pre><code class="language-julia hljs">grid = RectilinearGrid(size=4, x=(0, 1), topology=(Periodic, Flat, Flat))</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">4×1×1 RectilinearGrid{Float64, Periodic, Flat, Flat} on CPU with 3×0×0 halo
+├── Periodic x ∈ [0.0, 1.0) regularly spaced with Δx=0.25
+├── Flat y                  
+└── Flat z                  </code></pre><p>The sensible heat flux from the atmosphere is represented by a <code>FluxFunction</code>.</p><pre><code class="language-julia hljs">atmosphere = (
+    transfer_coefficient     = 1e-3,  # Unitless
+    atmosphere_density       = 1.225, # kg m⁻³
+    atmosphere_heat_capacity = 1004,  #
+    atmosphere_temperature   = [-20, -10, -5, 0],    # ᵒC
+    atmosphere_wind_speed    = 5,     # m s⁻¹
+    atmosphere_ice_flux      = [0.0, 0.0, 0.0, 0.0], # W m⁻²
+)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">(transfer_coefficient = 0.001, atmosphere_density = 1.225, atmosphere_heat_capacity = 1004, atmosphere_temperature = [-20, -10, -5, 0], atmosphere_wind_speed = 5, atmosphere_ice_flux = [0.0, 0.0, 0.0, 0.0])</code></pre><p>Flux is positive (cooling by fluxing heat up away from upper surface) when Tₐ &lt; Tᵤ:</p><pre><code class="language-julia hljs">@inline function sensible_heat_flux(i, j, grid, Tᵤ, clock, fields, atmosphere)
+    Cₛ = atmosphere.transfer_coefficient
+    ρₐ = atmosphere.atmosphere_density
+    cₐ = atmosphere.atmosphere_heat_capacity
+    Tₐ = atmosphere.atmosphere_temperature[i]
+    uₐ = atmosphere.atmosphere_wind_speed
+    ℵ  = fields.ℵ[i, j, 1]
+    Qₐ = atmosphere.atmosphere_ice_flux
+
+    Qₐ[i] =  ifelse(ℵ == 0, zero(grid), Cₛ * ρₐ * cₐ * uₐ * (Tᵤ - Tₐ))
+
+    return Qₐ[i]
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">sensible_heat_flux (generic function with 1 method)</code></pre><p>We also evolve a bucket freshwater lake that cools down and freezes from below generating fresh sea-ice (or lake-ice in this case?). We set the Δt of the lake to 10 minutes. This time step will be used to also for the sea-ice model.</p><pre><code class="language-julia hljs">lake = (
+    lake_density         = 1000, # kg m⁻³
+    lake_heat_capacity   = 4000,  #
+    lake_temperature     = [1.0, 1.0, 1.0, 1.0], # ᵒC
+    lake_depth           = 10, # m
+    lake_ice_flux        = [0.0, 0.0, 0.0, 0.0], # W m⁻²
+    atmosphere_lake_flux = [0.0, 0.0, 0.0, 0.0], # W m⁻²
+    Δt                   = 10minutes
+)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">(lake_density = 1000, lake_heat_capacity = 4000, lake_temperature = [1.0, 1.0, 1.0, 1.0], lake_depth = 10, lake_ice_flux = [0.0, 0.0, 0.0, 0.0], atmosphere_lake_flux = [0.0, 0.0, 0.0, 0.0], Δt = 600.0)</code></pre><p>We build a flux function that serves three purposes:</p><ol><li>computing the cooling of the lake caused by the atmosphere</li><li>If the lake temperature is low enough, freezing the lake from above</li><li>and adding the heat flux to the bottom of the ice</li></ol><pre><code class="language-julia hljs">@inline function advance_lake_and_frazil_flux(i, j, grid, Tuᵢ, clock, fields, parameters)
+    atmos = parameters.atmosphere
+    lake  = parameters.lake
+
+    Cₛ = atmos.transfer_coefficient
+    ρₐ = atmos.atmosphere_density
+    cₐ = atmos.atmosphere_heat_capacity
+    Tₐ = atmos.atmosphere_temperature[i]
+    uₐ = atmos.atmosphere_wind_speed
+    Tₒ = lake.lake_temperature
+    cₒ = lake.lake_heat_capacity
+    ρₒ = lake.lake_density
+    Δ  = lake.lake_depth
+    Δt = lake.Δt
+    ℵ  = fields.ℵ[i, j, 1]
+
+    Qᵗ = lake.atmosphere_lake_flux
+    Qᵇ = lake.lake_ice_flux
+
+    Qₐ = Cₛ * ρₐ * cₐ * uₐ * (Tₐ - Tₒ[i]) * (1 - ℵ)
+
+    Tₒ[i] = Tₒ[i] + Qₐ / (ρₒ * cₒ) * Δt
+
+    Qᵢ = ρₒ * cₒ * (Tₒ[i] - 0) / Δt * Δ # W m⁻²
+    Qᵢ = min(Qᵢ, zero(Qᵢ)) # We only freeze, not melt
+
+    Tₒ[i] = ifelse(Qᵢ == 0, Tₒ[i], zero(Qᵢ))
+
+    Qᵗ[i] = Qₐ
+    Qᵇ[i] = Qᵢ
+
+    return Qᵢ
+end
+
+top_heat_flux    = FluxFunction(sensible_heat_flux; parameters=atmosphere)
+bottom_heat_flux = FluxFunction(advance_lake_and_frazil_flux; parameters=(; lake, atmosphere))
+
+model = SeaIceModel(grid;
+                    ice_consolidation_thickness = 0.05, # m
+                    top_heat_flux,
+                    bottom_heat_flux)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">SeaIceModel{Oceananigans.Architectures.CPU, Oceananigans.Grids.RectilinearGrid}(time = 0 seconds, iteration = 0)
+├── grid: 4×1×1 RectilinearGrid{Float64, Periodic, Flat, Flat} on CPU with 3×0×0 halo
+├── timestepper: SplitRungeKuttaTimeStepper(3)
+├── ice_thermodynamics: SlabThermodynamics
+├── advection: Nothing
+└── external_heat_fluxes: 
+    ├── top: FluxFunction of sensible_heat_flux (generic function with 1 method) with parameters @NamedTuple{transfer_coefficient::Float64, atmosphere_density::Float64, atmosphere_heat_capacity::Int64, atmosphere_temperature::Vector{Int64}, atmosphere_wind_speed::Int64, atmosphere_ice_flux::Vector{Float64}}
+    └── bottom: FluxFunction of advance_lake_and_frazil_flux (generic function with 1 method) with parameters @NamedTuple{lake::@NamedTuple{lake_density::Int64, lake_heat_capacity::Int64, lake_temperature::Vector{Float64}, lake_depth::Int64, lake_ice_flux::Vector{Float64}, atmosphere_lake_flux::Vector{Float64}, Δt::Float64}, atmosphere::@NamedTuple{transfer_coefficient::Float64, atmosphere_density::Float64, atmosphere_heat_capacity::Int64, atmosphere_temperature::Vector{Int64}, atmosphere_wind_speed::Int64, atmosphere_ice_flux::Vector{Float64}}}</code></pre><p>We initialize all the columns with open water (0 thickness and 0 concentration)</p><pre><code class="language-julia hljs">set!(model, h=0, ℵ=0)
+
+simulation = Simulation(model, Δt=lake.Δt, stop_time=20days)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Simulation of SeaIceModel
+├── Next time step: 10 minutes
+├── run_wall_time: 0 seconds
+├── run_wall_time / iteration: NaN days
+├── stop_time: 20 days
+├── stop_iteration: Inf
+├── wall_time_limit: Inf
+├── minimum_relative_step: 0.0
+├── callbacks: OrderedDict with 3 entries:
+│   ├── stop_time_exceeded =&gt; Callback of stop_time_exceeded on IterationInterval(1)
+│   ├── stop_iteration_exceeded =&gt; Callback of stop_iteration_exceeded on IterationInterval(1)
+│   └── wall_time_limit_exceeded =&gt; Callback of wall_time_limit_exceeded on IterationInterval(1)
+└── output_writers: OrderedDict with no entries</code></pre><p>The data is accumulated in a timeseries for visualization.</p><pre><code class="language-julia hljs">timeseries = []
+
+function accumulate_timeseries(sim)
+    T  = model.ice_thermodynamics.top_surface_temperature
+    h  = model.ice_thickness
+    ℵ  = model.ice_concentration
+    To = lake.lake_temperature
+    push!(timeseries, (time(sim),
+                       h[1, 1, 1], ℵ[1, 1, 1], T[1, 1, 1],
+                       h[2, 1, 1], ℵ[2, 1, 1], T[2, 1, 1],
+                       h[3, 1, 1], ℵ[3, 1, 1], T[3, 1, 1],
+                       h[4, 1, 1], ℵ[4, 1, 1], T[4, 1, 1],
+                       To[1], To[2], To[3], To[4]))
+end
+
+simulation.callbacks[:save] = Callback(accumulate_timeseries)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Callback of accumulate_timeseries on IterationInterval(1)</code></pre><p>accumulate energy</p><pre><code class="language-julia hljs">Ei = []
+Qa = []
+Ql = []
+
+function accumulate_energy(sim)
+    h  = sim.model.ice_thickness
+    ℵ  = sim.model.ice_concentration
+    PT = sim.model.ice_thermodynamics.phase_transitions
+    ℰ  = latent_heat(PT, 0) # ice is at 0ᵒC
+
+    push!(Ei, deepcopy(@. - h * ℵ * ℰ))
+    push!(Qa, deepcopy(atmosphere.atmosphere_ice_flux))
+    push!(Ql, deepcopy(lake.lake_ice_flux))
+end
+
+simulation.callbacks[:save]   = Callback(accumulate_timeseries)
+simulation.callbacks[:energy] = Callback(accumulate_energy)
+
+run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (2.135 seconds)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (1.295 seconds).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 4.552 seconds.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 20 days equals or exceeds stop time 20 days.</code></pre><p>Extract and visualize data</p><pre><code class="language-julia hljs">t  = [datum[1]  for datum in timeseries]
+h1 = [datum[2]  for datum in timeseries]
+ℵ1 = [datum[3]  for datum in timeseries]
+T1 = [datum[4]  for datum in timeseries]
+h2 = [datum[5]  for datum in timeseries]
+ℵ2 = [datum[6]  for datum in timeseries]
+T2 = [datum[7]  for datum in timeseries]
+h3 = [datum[8]  for datum in timeseries]
+ℵ3 = [datum[9]  for datum in timeseries]
+T3 = [datum[10] for datum in timeseries]
+h4 = [datum[11] for datum in timeseries]
+ℵ4 = [datum[12] for datum in timeseries]
+T4 = [datum[13] for datum in timeseries]
+L1 = [datum[14] for datum in timeseries]
+L2 = [datum[15] for datum in timeseries]
+L3 = [datum[16] for datum in timeseries]
+L4 = [datum[17] for datum in timeseries]
+
+set_theme!(Theme(fontsize=18, linewidth=3))
+
+fig = Figure(size=(1000, 900))
+
+axT = Axis(fig[1, 1], xlabel=&quot;Time (days)&quot;, ylabel=&quot;Top temperature (ᵒC)&quot;)
+axℵ = Axis(fig[2, 1], xlabel=&quot;Time (days)&quot;, ylabel=&quot;Ice concentration (-)&quot;)
+axh = Axis(fig[3, 1], xlabel=&quot;Time (days)&quot;, ylabel=&quot;Ice thickness (m)&quot;)
+axL = Axis(fig[4, 1], xlabel=&quot;Time (days)&quot;, ylabel=&quot;Lake temperature (ᵒC)&quot;)
+
+lines!(axT, t / day, T1)
+lines!(axℵ, t / day, ℵ1)
+lines!(axh, t / day, h1)
+lines!(axL, t / day, L1)
+
+lines!(axT, t / day, T2)
+lines!(axℵ, t / day, ℵ2)
+lines!(axh, t / day, h2)
+lines!(axL, t / day, L2)
+
+lines!(axT, t / day, T3)
+lines!(axℵ, t / day, ℵ3)
+lines!(axh, t / day, h3)
+lines!(axL, t / day, L3)
+
+lines!(axT, t / day, T4)
+lines!(axℵ, t / day, ℵ4)
+lines!(axh, t / day, h4)
+lines!(axL, t / day, L4)
+
+save(&quot;freezing_in_winter.png&quot;, fig)</code></pre><p><img src="../freezing_in_winter.png" alt/></p><p>Extract and visualize energy</p><pre><code class="language-julia hljs">Ei1 = [datum[1]  for datum in Ei]
+Qa1 = [datum[1]  for datum in Qa]
+Ql1 = [datum[1]  for datum in Ql]
+Ei2 = [datum[2]  for datum in Ei]
+Qa2 = [datum[2]  for datum in Qa]
+Ql2 = [datum[2]  for datum in Ql]
+Ei3 = [datum[3]  for datum in Ei]
+Qa3 = [datum[3]  for datum in Qa]
+Ql3 = [datum[3]  for datum in Ql]
+Ei4 = [datum[4]  for datum in Ei]
+Qa4 = [datum[4]  for datum in Qa]
+Ql4 = [datum[4]  for datum in Ql]
+
+fig = Figure(size=(1000, 900))
+
+axE = Axis(fig[1, 1], xlabel=&quot;Time (days)&quot;, ylabel=&quot;Sea Ice energy (J)&quot;)
+axA = Axis(fig[2, 1], xlabel=&quot;Time (days)&quot;, ylabel=&quot;Atmosphere HF&quot;)
+axL = Axis(fig[3, 1], xlabel=&quot;Time (days)&quot;, ylabel=&quot;Lake HF&quot;)
+axB = Axis(fig[4, 1], xlabel=&quot;Time (days)&quot;, ylabel=&quot;Heat budget&quot;)
+
+dEi1 = (Ei1[2:end] - Ei1[1:end-1]) ./ 10minutes
+dEi2 = (Ei2[2:end] - Ei2[1:end-1]) ./ 10minutes
+dEi3 = (Ei3[2:end] - Ei3[1:end-1]) ./ 10minutes
+dEi4 = (Ei4[2:end] - Ei4[1:end-1]) ./ 10minutes
+tpE  = t[2:end]
+
+lines!(axE, t / day, Ei1)
+lines!(axA, t / day, Qa1)
+lines!(axL, t / day, Ql1)
+
+lines!(axE, t / day, Ei2)
+lines!(axA, t / day, Qa2)
+lines!(axL, t / day, Ql2)
+
+lines!(axE, t / day, Ei3)
+lines!(axA, t / day, Qa3)
+lines!(axL, t / day, Ql3)
+
+lines!(axE, t / day, Ei4)
+lines!(axA, t / day, Qa4)
+lines!(axL, t / day, Ql4)
+
+lines!(axB, tpE / day, dEi1 .- (.- Qa1 .+ Ql1)[2:end])
+lines!(axB, tpE / day, dEi2 .- (.- Qa2 .+ Ql2)[2:end])
+lines!(axB, tpE / day, dEi3 .- (.- Qa3 .+ Ql3)[2:end])
+
+save(&quot;energy_budget.png&quot;, fig)</code></pre><p><img src="../energy_budget.png" alt/></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../melting_in_spring/">« Melting in Spring</a><a class="docs-footer-nextpage" href="../ice_advected_by_anticyclone/">Ice advected by anticyclone »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Wednesday 4 February 2026 22:11">Wednesday 4 February 2026</span>. Using Julia version 1.12.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

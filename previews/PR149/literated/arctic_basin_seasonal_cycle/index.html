@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Arctic basin seasonal cycle · ClimaSeaIce.jl</title><meta name="title" content="Arctic basin seasonal cycle · ClimaSeaIce.jl"/><meta property="og:title" content="Arctic basin seasonal cycle · ClimaSeaIce.jl"/><meta property="twitter:title" content="Arctic basin seasonal cycle · ClimaSeaIce.jl"/><meta name="description" content="Documentation for ClimaSeaIce.jl."/><meta property="og:description" content="Documentation for ClimaSeaIce.jl."/><meta property="twitter:description" content="Documentation for ClimaSeaIce.jl."/><meta property="og:url" content="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/arctic_basin_seasonal_cycle/"/><meta property="twitter:url" content="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/arctic_basin_seasonal_cycle/"/><link rel="canonical" href="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/arctic_basin_seasonal_cycle/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">ClimaSeaIce.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Physics</span><ul><li><a class="tocitem" href="../../physics/thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../physics/layered_snow_ice_implementation/">Layered snow + ice implementation</a></li><li><a class="tocitem" href="../../physics/dynamics_and_rheology/">Dynamics and Rheology</a></li></ul></li><li><span class="tocitem">Examples</span><ul><li><a class="tocitem" href="../freezing_bucket/">Freezing bucket</a></li><li><a class="tocitem" href="../melting_in_spring/">Melting in Spring</a></li><li><a class="tocitem" href="../freezing_of_a_lake/">Freezing of a Lake</a></li><li><a class="tocitem" href="../ice_advected_by_anticyclone/">Ice advected by anticyclone</a></li><li><a class="tocitem" href="../ice_advected_on_coastline/">Ice advected on coastline</a></li><li class="is-active"><a class="tocitem" href>Arctic basin seasonal cycle</a><ul class="internal"><li><a class="tocitem" href="#Install-dependencies"><span>Install dependencies</span></a></li><li><a class="tocitem" href="#The-physical-domain"><span>The physical domain</span></a></li><li><a class="tocitem" href="#Climatological-forcing-data"><span>Climatological forcing data</span></a></li><li><a class="tocitem" href="#Creating-time-varying-flux-functions"><span>Creating time-varying flux functions</span></a></li><li><a class="tocitem" href="#Building-the-model"><span>Building the model</span></a></li><li><a class="tocitem" href="#Running-the-simulation"><span>Running the simulation</span></a></li><li><a class="tocitem" href="#Collecting-data"><span>Collecting data</span></a></li><li><a class="tocitem" href="#Visualizing-the-results"><span>Visualizing the results</span></a></li></ul></li></ul></li><li><a class="tocitem" href="../../timestepping/">Timestepping</a></li><li><span class="tocitem">Library</span><ul><li><a class="tocitem" href="../../library/outline/">Contents</a></li><li><a class="tocitem" href="../../library/public/">Public</a></li><li><a class="tocitem" href="../../library/internals/">Private</a></li><li><a class="tocitem" href="../../library/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Arctic basin seasonal cycle</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Arctic basin seasonal cycle</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/ClimaSeaIce.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/ClimaSeaIce.jl/blob/main/examples/arctic_basin_seasonal_cycle.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Arctic-basin-seasonal-cycle-example"><a class="docs-heading-anchor" href="#Arctic-basin-seasonal-cycle-example">Arctic basin seasonal cycle example</a><a id="Arctic-basin-seasonal-cycle-example-1"></a><a class="docs-heading-anchor-permalink" href="#Arctic-basin-seasonal-cycle-example" title="Permalink"></a></h1><p>This example reproduces results from Semtner (1976), which simulates the seasonal cycle of sea ice in the Arctic basin. The model uses climatological forcing data from Fletcher (1965) for shortwave radiation, longwave radiation, sensible heat flux, and latent heat flux. This example demonstrates how to:</p><ul><li>use time-varying climatological forcing data,</li><li>set up seasonal cycles with <code>FieldTimeSeries</code> and cyclical indexing,</li><li>combine multiple heat flux components,</li><li>simulate multi-year seasonal cycles.</li></ul><h2 id="Install-dependencies"><a class="docs-heading-anchor" href="#Install-dependencies">Install dependencies</a><a id="Install-dependencies-1"></a><a class="docs-heading-anchor-permalink" href="#Install-dependencies" title="Permalink"></a></h2><p>First let&#39;s make sure we have all required packages installed.</p><pre><code class="language-julia hljs">using Pkg
+pkg&quot;add Oceananigans, ClimaSeaIce, CairoMakie&quot;</code></pre><h2 id="The-physical-domain"><a class="docs-heading-anchor" href="#The-physical-domain">The physical domain</a><a id="The-physical-domain-1"></a><a class="docs-heading-anchor-permalink" href="#The-physical-domain" title="Permalink"></a></h2><p>We use a single grid point to model a horizontally uniform ice column:</p><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans.Units
+using Oceananigans.Units: Time
+using ClimaSeaIce
+using CairoMakie
+
+grid = RectilinearGrid(size=(), topology=(Flat, Flat, Flat))</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">1×1×1 RectilinearGrid{Float64, Flat, Flat, Flat} on CPU with 0×0×0 halo
+├── Flat x 
+├── Flat y 
+└── Flat z </code></pre><h2 id="Climatological-forcing-data"><a class="docs-heading-anchor" href="#Climatological-forcing-data">Climatological forcing data</a><a id="Climatological-forcing-data-1"></a><a class="docs-heading-anchor-permalink" href="#Climatological-forcing-data" title="Permalink"></a></h2><p>The forcing data comes from Semtner (1976, table 1), originally tabulated by Fletcher (1965). Note: these are in kcal, which was deprecated in the ninth General Conference on Weights and Measures in 1948. We convert these to Joules (and then to Watts) below.</p><p>Month:        Jan    Feb    Mar    Apr    May    Jun    Jul    Aug    Sep   Oct    Nov    Dec</p><pre><code class="language-julia hljs">tabulated_shortwave = - [   0,      0,    1.9,    9.9,   17.7,   19.2,   13.6,    9.0,    3.7,   0.4,      0,      0] .* 1e4 # kcal m⁻²
+tabulated_longwave  = - [10.4,   10.3,   10.3,   11.6,   15.1,   18.0,   19.1,   18.7,   16.5,  13.9,   11.2,   10.9] .* 1e4 # kcal m⁻²
+tabulated_sensible  = - [1.18,   0.76,   0.72,   0.29,  -0.45,  -0.39,  -0.30,  -0.40,  -0.17,   0.1,   0.56,   0.79] .* 1e4 # kcal m⁻²
+tabulated_latent    = - [   0,  -0.02,  -0.03,   -0.09, -0.46,  -0.70,  -0.64,  -0.66,  -0.39,  -0.19, -0.01,  -0.01] .* 1e4 # kcal m⁻²</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">12-element Vector{Float64}:
+   -0.0
+  200.0
+  300.0
+  900.0
+ 4600.0
+ 7000.0
+ 6400.0
+ 6600.0
+ 3900.0
+ 1900.0
+  100.0
+  100.0</code></pre><p>We assume every month has 30 days and set up the time array:</p><pre><code class="language-julia hljs">Nmonths = 12
+month_days = 30
+year_days = month_days * Nmonths
+times_days = 15:30:(year_days - 15)
+times = times_days .* day # times in seconds</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">1.296e6:2.592e6:2.9808e7</code></pre><p>Sea ice emissivity:</p><pre><code class="language-julia hljs">ϵ = 1</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">1</code></pre><p>Convert fluxes to the right units (W m⁻²):</p><pre><code class="language-julia hljs">kcal_to_joules = 4184
+tabulated_shortwave .*= kcal_to_joules / (month_days * days)
+tabulated_longwave  .*= kcal_to_joules / (month_days * days) .* ϵ
+tabulated_sensible  .*= kcal_to_joules / (month_days * days)
+tabulated_latent    .*= kcal_to_joules / (month_days * days)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">12-element Vector{Float64}:
+ -0.0
+  0.3228395061728395
+  0.4842592592592593
+  1.452777777777778
+  7.425308641975309
+ 11.299382716049383
+ 10.330864197530865
+ 10.653703703703703
+  6.295370370370371
+  3.0669753086419753
+  0.16141975308641976
+  0.16141975308641976</code></pre><p>Let&#39;s visualize the forcing data:</p><pre><code class="language-julia hljs">fig = Figure()
+ax = Axis(fig[1, 1], xlabel=&quot;Time (days)&quot;, ylabel=&quot;Heat flux (W m⁻²)&quot;)
+lines!(ax, times ./ day, tabulated_shortwave, label=&quot;Shortwave&quot;)
+lines!(ax, times ./ day, tabulated_longwave, label=&quot;Longwave&quot;)
+lines!(ax, times ./ day, tabulated_sensible, label=&quot;Sensible&quot;)
+lines!(ax, times ./ day, tabulated_latent, label=&quot;Latent&quot;)
+axislegend(ax)</code></pre><img src="9595d8ee.png" alt="Example block output"/><h2 id="Creating-time-varying-flux-functions"><a class="docs-heading-anchor" href="#Creating-time-varying-flux-functions">Creating time-varying flux functions</a><a id="Creating-time-varying-flux-functions-1"></a><a class="docs-heading-anchor-permalink" href="#Creating-time-varying-flux-functions" title="Permalink"></a></h2><p>We create <code>FieldTimeSeries</code> objects with cyclical indexing so the forcing repeats annually:</p><pre><code class="language-julia hljs">Rs = FieldTimeSeries{Nothing, Nothing, Nothing}(grid, times; time_indexing = Oceananigans.OutputReaders.Cyclical())
+Rl = FieldTimeSeries{Nothing, Nothing, Nothing}(grid, times; time_indexing = Oceananigans.OutputReaders.Cyclical())
+Qs = FieldTimeSeries{Nothing, Nothing, Nothing}(grid, times; time_indexing = Oceananigans.OutputReaders.Cyclical())
+Ql = FieldTimeSeries{Nothing, Nothing, Nothing}(grid, times; time_indexing = Oceananigans.OutputReaders.Cyclical())
+
+for (i, time) in enumerate(times)
+    set!(Rs[i], tabulated_shortwave[i:i])
+    set!(Rl[i], tabulated_longwave[i:i])
+    set!(Qs[i], tabulated_sensible[i:i])
+    set!(Ql[i], tabulated_latent[i:i])
+end</code></pre><p>We define flux functions that linearly interpolate the time series:</p><pre><code class="language-julia hljs">@inline function linearly_interpolate_flux(i, j, grid, Tₛ, clock, model_fields, flux)
+    t  = Time(clock.time)
+    return flux[i, j, 1, t]
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">linearly_interpolate_flux (generic function with 1 method)</code></pre><p>For shortwave radiation, we account for surface albedo:</p><pre><code class="language-julia hljs">@inline function linearly_interpolate_solar_flux(i, j, grid, Tₛ, clock, model_fields, flux)
+    Q = linearly_interpolate_flux(i, j, grid, Tₛ, clock, model_fields, flux)
+    α = ifelse(Tₛ &lt; -0.1, 0.75, 0.64) # albedo depends on surface temperature
+    return Q * (1 - α)
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">linearly_interpolate_solar_flux (generic function with 1 method)</code></pre><div class="admonition is-info" id="Slightly-wrong-value-for-Stefan-Boltzmann-constant-e2815644cd9fe5e7"><header class="admonition-header">Slightly wrong value for Stefan-Boltzmann constant<a class="admonition-anchor" href="#Slightly-wrong-value-for-Stefan-Boltzmann-constant-e2815644cd9fe5e7" title="Permalink"></a></header><div class="admonition-body"><p>Semtner (1976) uses a wrong value for the Stefan-Boltzmann constant (roughly 2% higher) to match the results of Maykut &amp; Untersteiner (1965). We use here the same value here for comparison purposes.</p></div></div><pre><code class="language-julia hljs">σ = 5.67e-8 * 1.02 # Wrong value, but used for comparison!</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">5.7834e-8</code></pre><p>We create flux functions for each component:</p><pre><code class="language-julia hljs">Q_shortwave = FluxFunction(linearly_interpolate_solar_flux, parameters=Rs)
+Q_longwave  = FluxFunction(linearly_interpolate_flux,       parameters=Rl)
+Q_sensible  = FluxFunction(linearly_interpolate_flux,       parameters=Qs)
+Q_latent    = FluxFunction(linearly_interpolate_flux,       parameters=Ql)
+Q_emission  = RadiativeEmission(emissivity=ϵ, stefan_boltzmann_constant=σ)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">RadiativeEmission(emissivity = Float64, stefan_boltzmann_constant = Float64, reference_temperature = Float64)</code></pre><p>We combine all top heat fluxes:</p><pre><code class="language-julia hljs">top_heat_flux = (Q_shortwave, Q_longwave, Q_sensible, Q_latent, Q_emission)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">(FluxFunction of linearly_interpolate_solar_flux (generic function with 1 method) with parameters 1×1×1×12 FieldTimeSeries{Oceananigans.OutputReaders.InMemory} located at (⋅, ⋅, ⋅) on Oceananigans.Architectures.CPU, FluxFunction of linearly_interpolate_flux (generic function with 1 method) with parameters 1×1×1×12 FieldTimeSeries{Oceananigans.OutputReaders.InMemory} located at (⋅, ⋅, ⋅) on Oceananigans.Architectures.CPU, FluxFunction of linearly_interpolate_flux (generic function with 1 method) with parameters 1×1×1×12 FieldTimeSeries{Oceananigans.OutputReaders.InMemory} located at (⋅, ⋅, ⋅) on Oceananigans.Architectures.CPU, FluxFunction of linearly_interpolate_flux (generic function with 1 method) with parameters 1×1×1×12 FieldTimeSeries{Oceananigans.OutputReaders.InMemory} located at (⋅, ⋅, ⋅) on Oceananigans.Architectures.CPU, RadiativeEmission(emissivity = Float64, stefan_boltzmann_constant = Float64, reference_temperature = Float64))</code></pre><h2 id="Building-the-model"><a class="docs-heading-anchor" href="#Building-the-model">Building the model</a><a id="Building-the-model-1"></a><a class="docs-heading-anchor-permalink" href="#Building-the-model" title="Permalink"></a></h2><p>We assemble the model and initialize it with 30 cm of ice at full concentration:</p><pre><code class="language-julia hljs">model = SeaIceModel(grid; top_heat_flux)
+set!(model, h=0.3, ℵ=1) # Start from 30 cm of ice and full concentration</code></pre><h2 id="Running-the-simulation"><a class="docs-heading-anchor" href="#Running-the-simulation">Running the simulation</a><a id="Running-the-simulation-1"></a><a class="docs-heading-anchor-permalink" href="#Running-the-simulation" title="Permalink"></a></h2><p>We run the simulation for 30 years with an 8-hour time step:</p><pre><code class="language-julia hljs">simulation = Simulation(model, Δt=8hours, stop_time=30 * 360days)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Simulation of SeaIceModel
+├── Next time step: 8 hours
+├── run_wall_time: 0 seconds
+├── run_wall_time / iteration: NaN days
+├── stop_time: 10800 days
+├── stop_iteration: Inf
+├── wall_time_limit: Inf
+├── minimum_relative_step: 0.0
+├── callbacks: OrderedDict with 3 entries:
+│   ├── stop_time_exceeded =&gt; Callback of stop_time_exceeded on IterationInterval(1)
+│   ├── stop_iteration_exceeded =&gt; Callback of stop_iteration_exceeded on IterationInterval(1)
+│   └── wall_time_limit_exceeded =&gt; Callback of wall_time_limit_exceeded on IterationInterval(1)
+└── output_writers: OrderedDict with no entries</code></pre><h2 id="Collecting-data"><a class="docs-heading-anchor" href="#Collecting-data">Collecting data</a><a id="Collecting-data-1"></a><a class="docs-heading-anchor-permalink" href="#Collecting-data" title="Permalink"></a></h2><p>We set up a callback to accumulate time series data:</p><pre><code class="language-julia hljs">series = []
+
+function accumulate_timeseries(sim)
+    T = model.ice_thermodynamics.top_surface_temperature
+    h = model.ice_thickness
+    ℵ = model.ice_concentration
+    Qe = model.external_heat_fluxes.top
+    Qe = ClimaSeaIce.SeaIceThermodynamics.HeatBoundaryConditions.getflux(Qe, 1, 1, grid, first(T), model.clock, model.ice_thickness)
+    push!(series, (time(sim), first(h), first(T), first(ℵ), Qe))
+end
+
+simulation.callbacks[:save] = Callback(accumulate_timeseries)
+
+run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (1.973 seconds)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (1.465 seconds).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 9.192 seconds.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 10800 days equals or exceeds stop time 10800 days.</code></pre><h2 id="Visualizing-the-results"><a class="docs-heading-anchor" href="#Visualizing-the-results">Visualizing the results</a><a id="Visualizing-the-results-1"></a><a class="docs-heading-anchor-permalink" href="#Visualizing-the-results" title="Permalink"></a></h2><p>We extract the time series data and visualize the evolution:</p><pre><code class="language-julia hljs">t = [datum[1] for datum in series]
+h = [datum[2] for datum in series]
+T = [datum[3] for datum in series]
+ℵ = [datum[4] for datum in series]
+Q = [datum[5] for datum in series]
+
+set_theme!(Theme(fontsize=24, linewidth=4))
+
+fig = Figure(size=(1000, 1200))
+
+axT = Axis(fig[1, 1], xlabel=&quot;Time (days)&quot;, ylabel=&quot;Top temperature (ᵒC)&quot;)
+axh = Axis(fig[2, 1], xlabel=&quot;Time (days)&quot;, ylabel=&quot;Ice thickness (m)&quot;)
+axℵ = Axis(fig[3, 1], xlabel=&quot;Time (days)&quot;, ylabel=&quot;Ice concentration (-)&quot;)
+axQ = Axis(fig[4, 1], xlabel=&quot;Time (days)&quot;, ylabel=&quot;Top heat flux (W m⁻²)&quot;)
+
+lines!(axT, t ./ day, T)
+lines!(axh, t ./ day, h)
+lines!(axℵ, t ./ day, ℵ)
+lines!(axQ, t ./ day, Q)
+
+
+save(&quot;ice_timeseries.png&quot;, fig)</code></pre><p><img src="../ice_timeseries.png" alt/></p><p>The results show the seasonal cycle of sea ice, with ice growing in winter and melting in summer. After several years, the model reaches a quasi-equilibrium seasonal cycle.</p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../ice_advected_on_coastline/">« Ice advected on coastline</a><a class="docs-footer-nextpage" href="../../timestepping/">Timestepping »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Friday 29 May 2026 11:36">Friday 29 May 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

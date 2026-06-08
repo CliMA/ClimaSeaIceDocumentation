@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Ice advected on coastline · ClimaSeaIce.jl</title><meta name="title" content="Ice advected on coastline · ClimaSeaIce.jl"/><meta property="og:title" content="Ice advected on coastline · ClimaSeaIce.jl"/><meta property="twitter:title" content="Ice advected on coastline · ClimaSeaIce.jl"/><meta name="description" content="Documentation for ClimaSeaIce.jl."/><meta property="og:description" content="Documentation for ClimaSeaIce.jl."/><meta property="twitter:description" content="Documentation for ClimaSeaIce.jl."/><meta property="og:url" content="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/ice_advected_on_coastline/"/><meta property="twitter:url" content="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/ice_advected_on_coastline/"/><link rel="canonical" href="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/ice_advected_on_coastline/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">ClimaSeaIce.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Examples</span><ul><li><a class="tocitem" href="../freezing_bucket/">Freezing bucket</a></li><li><a class="tocitem" href="../melting_in_spring/">Melting in Spring</a></li><li><a class="tocitem" href="../freezing_of_a_lake/">Freezing of a Lake</a></li><li><a class="tocitem" href="../ice_advected_by_anticyclone/">Ice advected by anticyclone</a></li><li class="is-active"><a class="tocitem" href>Ice advected on coastline</a></li><li><a class="tocitem" href="../arctic_basin_seasonal_cycle/">Arctic basin seasonal cycle</a></li></ul></li><li><span class="tocitem">Library</span><ul><li><a class="tocitem" href="../../library/outline/">Contents</a></li><li><a class="tocitem" href="../../library/public/">Public</a></li><li><a class="tocitem" href="../../library/internals/">Private</a></li><li><a class="tocitem" href="../../library/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Ice advected on coastline</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Ice advected on coastline</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/ClimaSeaIce.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/ClimaSeaIce.jl/blob/main/examples/ice_advected_on_coastline.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><pre><code class="language-julia hljs">using ClimaSeaIce
+using ClimaSeaIce.SeaIceDynamics
+using ClimaSeaIce.Rheologies
+using Oceananigans
+using Oceananigans.Units
+using Oceananigans.Operators
+using Printf
+using CairoMakie</code></pre><p>A solid block of ice moving against a triangular coastline in a periodic channel</p><pre><code class="language-julia hljs">Lx = 512kilometers
+Ly = 256kilometers
+Nx = 256
+Ny = 256
+
+y_max = Ly / 2
+
+arch = CPU()
+
+𝓋ₐ = 10.0   # m / s
+Cᴰ = 1.2e-3 # Atmosphere - sea ice drag coefficient
+ρₐ = 1.3    # kg/m³</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">1.3</code></pre><p>2 km domain</p><pre><code class="language-julia hljs">grid = RectilinearGrid(arch; size = (Nx, Ny),
+                                x = (-Lx/2, Lx/2),
+                                y = (0, Ly),
+                             halo = (4, 4),
+                         topology = (Periodic, Bounded, Flat))
+
+bottom(x, y) = ifelse(y &gt; y_max, 0,
+               ifelse(abs(x / Lx) * Nx + y / Ly * Ny &gt; 24, 0, 1))
+
+grid = ImmersedBoundaryGrid(grid, GridFittedBoundary(bottom))
+
+#####
+##### Setup atmospheric and oceanic forcing
+#####</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">256×256×1 ImmersedBoundaryGrid{Float64, Oceananigans.Grids.Periodic, Oceananigans.Grids.Bounded, Oceananigans.Grids.Flat} on Oceananigans.Architectures.CPU with 4×4×0 halo:
+├── immersed_boundary: Oceananigans.ImmersedBoundaries.GridFittedBoundary{Oceananigans.Fields.Field{Oceananigans.Grids.Center, Oceananigans.Grids.Center, Oceananigans.Grids.Center, Nothing, Oceananigans.Grids.RectilinearGrid{Float64, Oceananigans.Grids.Periodic, Oceananigans.Grids.Bounded, Oceananigans.Grids.Flat, Oceananigans.Grids.StaticVerticalDiscretization{Nothing, Nothing, Float64, Float64}, Float64, Float64, OffsetArrays.OffsetVector{Float64, StepRangeLen{Float64, Base.TwicePrecision{Float64}, Base.TwicePrecision{Float64}, Int64}}, OffsetArrays.OffsetVector{Float64, StepRangeLen{Float64, Base.TwicePrecision{Float64}, Base.TwicePrecision{Float64}, Int64}}, Oceananigans.Architectures.CPU}, Tuple{Colon, Colon, Colon}, OffsetArrays.OffsetArray{Bool, 3, Array{Bool, 3}}, Bool, Oceananigans.BoundaryConditions.FieldBoundaryConditions{Oceananigans.BoundaryConditions.BoundaryCondition{Oceananigans.BoundaryConditions.Periodic, Nothing}, Oceananigans.BoundaryConditions.BoundaryCondition{Oceananigans.BoundaryConditions.Periodic, Nothing}, Oceananigans.BoundaryConditions.BoundaryCondition{Oceananigans.BoundaryConditions.Flux, Nothing}, Oceananigans.BoundaryConditions.BoundaryCondition{Oceananigans.BoundaryConditions.Flux, Nothing}, Nothing, Nothing, Oceananigans.BoundaryConditions.BoundaryCondition{Oceananigans.BoundaryConditions.Flux, Nothing}}, Nothing, Nothing}}
+├── underlying_grid: 256×256×1 RectilinearGrid{Float64, Oceananigans.Grids.Periodic, Oceananigans.Grids.Bounded, Oceananigans.Grids.Flat} on Oceananigans.Architectures.CPU with 4×4×0 halo
+├── Periodic x ∈ [-256000.0, 256000.0) regularly spaced with Δx=2000.0
+├── Bounded  y ∈ [0.0, 256000.0]       regularly spaced with Δy=1000.0
+└── Flat z                             </code></pre><p>Atmosphere - sea ice stress</p><pre><code class="language-julia hljs">Ua = XFaceField(grid)
+τᵤ = Field(- ρₐ * Cᴰ * Ua^2)
+set!(Ua, 𝓋ₐ)
+compute!(τᵤ)
+Oceananigans.BoundaryConditions.fill_halo_regions!(τᵤ)
+τᵥ = 0.0
+
+#####
+##### Ocean stress (a zero-velocity ocean with a drag)
+#####
+
+τₒ = SemiImplicitStress()
+
+#####
+##### Numerical details
+#####</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">ClimaSeaIce.SeaIceDynamics.SemiImplicitStress{Oceananigans.Fields.ZeroField{Float64, 3}, Oceananigans.Fields.ZeroField{Float64, 3}, Float64}(ZeroField{Float64}, ZeroField{Float64}, 1026.0, 0.0055)</code></pre><p>We use an elasto-visco-plastic rheology and WENO seventh order for advection of h and ℵ</p><pre><code class="language-julia hljs">dynamics = SeaIceMomentumEquation(grid;
+                                  top_momentum_stress = (u=τᵤ, v=τᵥ),
+                                  bottom_momentum_stress = τₒ,
+                                  rheology = ElastoViscoPlasticRheology(),
+                                  solver = SplitExplicitSolver(substeps=150))
+
+#Define the model!
+model = SeaIceModel(grid;
+                    advection = WENO(order=7),
+                    dynamics = dynamics,
+                    ice_thermodynamics = nothing)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">SeaIceModel{Oceananigans.Architectures.CPU, Oceananigans.ImmersedBoundaries.ImmersedBoundaryGrid}(time = 0 seconds, iteration = 0)
+├── grid: 256×256×1 ImmersedBoundaryGrid{Float64, Oceananigans.Grids.Periodic, Oceananigans.Grids.Bounded, Oceananigans.Grids.Flat} on Oceananigans.Architectures.CPU with 4×4×0 halo
+├── ice_thermodynamics: Nothing
+├── advection: WENO{4, Float64, Float32}(order=7)
+└── external_heat_fluxes: 
+    ├── top: Nothing
+    └── bottom: 0</code></pre><p>We start with a concentration of ℵ = 1 everywhere</p><pre><code class="language-julia hljs">set!(model, h = 1)
+set!(model, ℵ = 1)
+
+#####
+##### Setup the simulation
+#####</code></pre><p>run the model for 10 day</p><pre><code class="language-julia hljs">simulation = Simulation(model, Δt = 2minutes, stop_time=2days)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Simulation of SeaIceModel
+├── Next time step: 2 minutes
+├── Elapsed wall time: 0 seconds
+├── Wall time per iteration: NaN days
+├── Stop time: 2 days
+├── Stop iteration: Inf
+├── Wall time limit: Inf
+├── Minimum relative step: 0.0
+├── Callbacks: OrderedDict with 3 entries:
+│   ├── stop_time_exceeded =&gt; 3
+│   ├── stop_iteration_exceeded =&gt; -
+│   └── wall_time_limit_exceeded =&gt; }
+├── Output writers: OrderedDict with no entries
+└── Diagnostics: OrderedDict with no entries</code></pre><p>Container to hold the data</p><pre><code class="language-julia hljs">htimeseries = []
+ℵtimeseries = []
+utimeseries = []
+vtimeseries = []
+
+# Callback function to collect the data from the `sim`ulation
+function accumulate_timeseries(sim)
+    h = sim.model.ice_thickness
+    ℵ = sim.model.ice_concentration
+    u = sim.model.velocities.u
+    v = sim.model.velocities.v
+    push!(htimeseries, deepcopy(Array(interior(h))))
+    push!(ℵtimeseries, deepcopy(Array(interior(ℵ))))
+    push!(utimeseries, deepcopy(Array(interior(u))))
+    push!(vtimeseries, deepcopy(Array(interior(v))))
+end
+
+wall_time = Ref(time_ns())
+
+function progress(sim)
+    h = sim.model.ice_thickness
+    ℵ = sim.model.ice_concentration
+    u = sim.model.velocities.u
+    v = sim.model.velocities.v
+
+    hmax = maximum(interior(h))
+    ℵmin = minimum(interior(ℵ))
+    umax = maximum(interior(u)), maximum(interior(v))
+    step_time = 1e-9 * (time_ns() - wall_time[])
+
+    @info @sprintf(&quot;Time: %s, Iteration %d, Δt %s, max(vel): (%.2e, %.2e), max(trac): %.2f, %.2f, wtime: %s \n&quot;,
+                   prettytime(sim.model.clock.time),
+                   sim.model.clock.iteration,
+                   prettytime(sim.Δt),
+                   umax..., hmax, ℵmin, prettytime(step_time))
+
+     wall_time[] = time_ns()
+end
+
+simulation.callbacks[:progress] = Callback(progress, IterationInterval(10))
+simulation.callbacks[:save]     = Callback(accumulate_timeseries, IterationInterval(10))
+
+run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 0 seconds, Iteration 0, Δt 2 minutes, max(vel): (0.00e+00, 0.00e+00), max(trac): 1.00, 0.00, wtime: 47.062 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (19.031 seconds)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (20.401 seconds).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 20 minutes, Iteration 10, Δt 2 minutes, max(vel): (5.74e-02, 9.20e-03), max(trac): 1.01, 0.00, wtime: 28.211 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 40 minutes, Iteration 20, Δt 2 minutes, max(vel): (9.38e-02, 1.22e-02), max(trac): 1.04, 0.00, wtime: 8.532 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1 hour, Iteration 30, Δt 2 minutes, max(vel): (1.15e-01, 8.35e-03), max(trac): 1.09, 0.00, wtime: 8.511 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.333 hours, Iteration 40, Δt 2 minutes, max(vel): (1.27e-01, 6.35e-03), max(trac): 1.14, 0.00, wtime: 8.508 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.667 hours, Iteration 50, Δt 2 minutes, max(vel): (1.33e-01, 8.30e-03), max(trac): 1.18, 0.00, wtime: 8.513 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 2 hours, Iteration 60, Δt 2 minutes, max(vel): (1.36e-01, 1.09e-02), max(trac): 1.21, 0.00, wtime: 8.522 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 2.333 hours, Iteration 70, Δt 2 minutes, max(vel): (1.37e-01, 1.25e-02), max(trac): 1.23, 0.00, wtime: 8.512 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 2.667 hours, Iteration 80, Δt 2 minutes, max(vel): (1.38e-01, 1.32e-02), max(trac): 1.25, 0.00, wtime: 8.514 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 3 hours, Iteration 90, Δt 2 minutes, max(vel): (1.38e-01, 1.36e-02), max(trac): 1.27, 0.00, wtime: 8.513 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 3.333 hours, Iteration 100, Δt 2 minutes, max(vel): (1.39e-01, 1.41e-02), max(trac): 1.28, 0.00, wtime: 8.536 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 3.667 hours, Iteration 110, Δt 2 minutes, max(vel): (1.39e-01, 1.50e-02), max(trac): 1.29, 0.00, wtime: 8.578 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 4 hours, Iteration 120, Δt 2 minutes, max(vel): (1.39e-01, 1.55e-02), max(trac): 1.32, 0.00, wtime: 8.543 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 4.333 hours, Iteration 130, Δt 2 minutes, max(vel): (1.39e-01, 1.57e-02), max(trac): 1.33, 0.00, wtime: 8.534 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 4.667 hours, Iteration 140, Δt 2 minutes, max(vel): (1.39e-01, 1.57e-02), max(trac): 1.35, 0.00, wtime: 8.549 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 5 hours, Iteration 150, Δt 2 minutes, max(vel): (1.39e-01, 1.58e-02), max(trac): 1.37, 0.00, wtime: 8.541 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 5.333 hours, Iteration 160, Δt 2 minutes, max(vel): (1.39e-01, 1.60e-02), max(trac): 1.39, 0.00, wtime: 8.522 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 5.667 hours, Iteration 170, Δt 2 minutes, max(vel): (1.39e-01, 1.62e-02), max(trac): 1.40, 0.00, wtime: 8.506 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 6 hours, Iteration 180, Δt 2 minutes, max(vel): (1.44e-01, 1.64e-02), max(trac): 1.42, 0.00, wtime: 8.507 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 6.333 hours, Iteration 190, Δt 2 minutes, max(vel): (1.50e-01, 1.64e-02), max(trac): 1.43, 0.00, wtime: 8.485 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 6.667 hours, Iteration 200, Δt 2 minutes, max(vel): (1.54e-01, 1.66e-02), max(trac): 1.45, 0.00, wtime: 8.610 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 7 hours, Iteration 210, Δt 2 minutes, max(vel): (1.58e-01, 1.67e-02), max(trac): 1.46, 0.00, wtime: 8.725 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 7.333 hours, Iteration 220, Δt 2 minutes, max(vel): (1.61e-01, 1.67e-02), max(trac): 1.48, 0.00, wtime: 8.516 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 7.667 hours, Iteration 230, Δt 2 minutes, max(vel): (1.63e-01, 1.66e-02), max(trac): 1.49, 0.00, wtime: 8.498 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 8 hours, Iteration 240, Δt 2 minutes, max(vel): (1.64e-01, 1.69e-02), max(trac): 1.50, 0.00, wtime: 8.503 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 8.333 hours, Iteration 250, Δt 2 minutes, max(vel): (1.65e-01, 1.71e-02), max(trac): 1.51, 0.00, wtime: 8.495 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 8.667 hours, Iteration 260, Δt 2 minutes, max(vel): (1.65e-01, 1.70e-02), max(trac): 1.52, 0.00, wtime: 8.502 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 9 hours, Iteration 270, Δt 2 minutes, max(vel): (1.66e-01, 1.69e-02), max(trac): 1.54, 0.00, wtime: 8.505 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 9.333 hours, Iteration 280, Δt 2 minutes, max(vel): (1.66e-01, 1.67e-02), max(trac): 1.55, 0.00, wtime: 8.509 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 9.667 hours, Iteration 290, Δt 2 minutes, max(vel): (1.66e-01, 1.64e-02), max(trac): 1.56, 0.00, wtime: 8.498 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 10 hours, Iteration 300, Δt 2 minutes, max(vel): (1.66e-01, 1.61e-02), max(trac): 1.57, 0.00, wtime: 8.494 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 10.333 hours, Iteration 310, Δt 2 minutes, max(vel): (1.66e-01, 1.59e-02), max(trac): 1.57, 0.00, wtime: 8.511 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 10.667 hours, Iteration 320, Δt 2 minutes, max(vel): (1.66e-01, 1.55e-02), max(trac): 1.58, 0.00, wtime: 8.443 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 11 hours, Iteration 330, Δt 2 minutes, max(vel): (1.66e-01, 1.55e-02), max(trac): 1.59, 0.00, wtime: 8.469 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 11.333 hours, Iteration 340, Δt 2 minutes, max(vel): (1.66e-01, 1.52e-02), max(trac): 1.60, 0.00, wtime: 8.521 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 11.667 hours, Iteration 350, Δt 2 minutes, max(vel): (1.66e-01, 1.51e-02), max(trac): 1.61, 0.00, wtime: 8.509 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 12 hours, Iteration 360, Δt 2 minutes, max(vel): (1.66e-01, 1.50e-02), max(trac): 1.61, 0.00, wtime: 8.509 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 12.333 hours, Iteration 370, Δt 2 minutes, max(vel): (1.66e-01, 1.48e-02), max(trac): 1.62, 0.00, wtime: 8.508 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 12.667 hours, Iteration 380, Δt 2 minutes, max(vel): (1.66e-01, 1.48e-02), max(trac): 1.63, 0.00, wtime: 8.486 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 13 hours, Iteration 390, Δt 2 minutes, max(vel): (1.66e-01, 1.48e-02), max(trac): 1.63, 0.00, wtime: 8.520 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 13.333 hours, Iteration 400, Δt 2 minutes, max(vel): (1.66e-01, 1.47e-02), max(trac): 1.64, 0.00, wtime: 8.545 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 13.667 hours, Iteration 410, Δt 2 minutes, max(vel): (1.66e-01, 1.46e-02), max(trac): 1.65, 0.00, wtime: 8.507 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 14 hours, Iteration 420, Δt 2 minutes, max(vel): (1.66e-01, 1.45e-02), max(trac): 1.65, 0.00, wtime: 8.495 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 14.333 hours, Iteration 430, Δt 2 minutes, max(vel): (1.66e-01, 1.43e-02), max(trac): 1.66, 0.00, wtime: 8.589 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 14.667 hours, Iteration 440, Δt 2 minutes, max(vel): (1.66e-01, 1.45e-02), max(trac): 1.66, 0.00, wtime: 8.854 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 15 hours, Iteration 450, Δt 2 minutes, max(vel): (1.66e-01, 1.54e-02), max(trac): 1.67, 0.00, wtime: 8.523 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 15.333 hours, Iteration 460, Δt 2 minutes, max(vel): (1.66e-01, 1.64e-02), max(trac): 1.67, 0.00, wtime: 8.520 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 15.667 hours, Iteration 470, Δt 2 minutes, max(vel): (1.66e-01, 1.75e-02), max(trac): 1.68, 0.00, wtime: 8.515 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 16 hours, Iteration 480, Δt 2 minutes, max(vel): (1.66e-01, 1.85e-02), max(trac): 1.68, 0.00, wtime: 8.518 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 16.333 hours, Iteration 490, Δt 2 minutes, max(vel): (1.66e-01, 1.94e-02), max(trac): 1.68, 0.00, wtime: 8.510 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 16.667 hours, Iteration 500, Δt 2 minutes, max(vel): (1.66e-01, 2.03e-02), max(trac): 1.69, 0.00, wtime: 8.517 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 17 hours, Iteration 510, Δt 2 minutes, max(vel): (1.66e-01, 2.10e-02), max(trac): 1.69, 0.00, wtime: 8.512 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 17.333 hours, Iteration 520, Δt 2 minutes, max(vel): (1.66e-01, 2.16e-02), max(trac): 1.69, 0.00, wtime: 8.514 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 17.667 hours, Iteration 530, Δt 2 minutes, max(vel): (1.66e-01, 2.21e-02), max(trac): 1.70, 0.00, wtime: 8.512 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 18 hours, Iteration 540, Δt 2 minutes, max(vel): (1.66e-01, 2.25e-02), max(trac): 1.70, 0.00, wtime: 8.499 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 18.333 hours, Iteration 550, Δt 2 minutes, max(vel): (1.66e-01, 2.27e-02), max(trac): 1.70, 0.00, wtime: 8.522 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 18.667 hours, Iteration 560, Δt 2 minutes, max(vel): (1.66e-01, 2.29e-02), max(trac): 1.70, 0.00, wtime: 8.508 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 19 hours, Iteration 570, Δt 2 minutes, max(vel): (1.66e-01, 2.29e-02), max(trac): 1.71, 0.00, wtime: 8.507 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 19.333 hours, Iteration 580, Δt 2 minutes, max(vel): (1.66e-01, 2.28e-02), max(trac): 1.71, 0.00, wtime: 8.517 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 19.667 hours, Iteration 590, Δt 2 minutes, max(vel): (1.66e-01, 2.25e-02), max(trac): 1.71, 0.00, wtime: 8.513 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 20 hours, Iteration 600, Δt 2 minutes, max(vel): (1.66e-01, 2.21e-02), max(trac): 1.71, 0.00, wtime: 8.519 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 20.333 hours, Iteration 610, Δt 2 minutes, max(vel): (1.66e-01, 2.17e-02), max(trac): 1.71, 0.00, wtime: 8.518 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 20.667 hours, Iteration 620, Δt 2 minutes, max(vel): (1.66e-01, 2.10e-02), max(trac): 1.71, 0.00, wtime: 8.519 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 21 hours, Iteration 630, Δt 2 minutes, max(vel): (1.66e-01, 2.05e-02), max(trac): 1.72, 0.00, wtime: 8.514 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 21.333 hours, Iteration 640, Δt 2 minutes, max(vel): (1.66e-01, 1.99e-02), max(trac): 1.72, 0.00, wtime: 8.522 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 21.667 hours, Iteration 650, Δt 2 minutes, max(vel): (1.66e-01, 1.93e-02), max(trac): 1.72, 0.00, wtime: 8.516 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 22 hours, Iteration 660, Δt 2 minutes, max(vel): (1.66e-01, 1.85e-02), max(trac): 1.72, 0.00, wtime: 8.523 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 22.333 hours, Iteration 670, Δt 2 minutes, max(vel): (1.66e-01, 1.77e-02), max(trac): 1.72, 0.00, wtime: 8.522 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 22.667 hours, Iteration 680, Δt 2 minutes, max(vel): (1.66e-01, 1.71e-02), max(trac): 1.72, 0.00, wtime: 8.518 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 23 hours, Iteration 690, Δt 2 minutes, max(vel): (1.66e-01, 1.63e-02), max(trac): 1.72, 0.00, wtime: 8.501 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 23.333 hours, Iteration 700, Δt 2 minutes, max(vel): (1.66e-01, 1.56e-02), max(trac): 1.72, 0.00, wtime: 8.513 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 23.667 hours, Iteration 710, Δt 2 minutes, max(vel): (1.66e-01, 1.50e-02), max(trac): 1.72, 0.00, wtime: 8.513 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1 day, Iteration 720, Δt 2 minutes, max(vel): (1.66e-01, 1.43e-02), max(trac): 1.72, 0.00, wtime: 8.516 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.014 days, Iteration 730, Δt 2 minutes, max(vel): (1.66e-01, 1.34e-02), max(trac): 1.72, 0.00, wtime: 8.523 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.028 days, Iteration 740, Δt 2 minutes, max(vel): (1.66e-01, 1.29e-02), max(trac): 1.72, 0.00, wtime: 8.515 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.042 days, Iteration 750, Δt 2 minutes, max(vel): (1.66e-01, 1.30e-02), max(trac): 1.72, 0.00, wtime: 8.517 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.056 days, Iteration 760, Δt 2 minutes, max(vel): (1.66e-01, 1.31e-02), max(trac): 1.72, 0.00, wtime: 8.527 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.069 days, Iteration 770, Δt 2 minutes, max(vel): (1.66e-01, 1.31e-02), max(trac): 1.72, 0.00, wtime: 8.524 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.083 days, Iteration 780, Δt 2 minutes, max(vel): (1.66e-01, 1.33e-02), max(trac): 1.72, 0.00, wtime: 8.521 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.097 days, Iteration 790, Δt 2 minutes, max(vel): (1.66e-01, 1.34e-02), max(trac): 1.72, 0.00, wtime: 8.524 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.111 days, Iteration 800, Δt 2 minutes, max(vel): (1.66e-01, 1.35e-02), max(trac): 1.72, 0.00, wtime: 8.503 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.125 days, Iteration 810, Δt 2 minutes, max(vel): (1.66e-01, 1.35e-02), max(trac): 1.72, 0.00, wtime: 8.516 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.139 days, Iteration 820, Δt 2 minutes, max(vel): (1.66e-01, 1.36e-02), max(trac): 1.73, 0.00, wtime: 8.523 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.153 days, Iteration 830, Δt 2 minutes, max(vel): (1.66e-01, 1.37e-02), max(trac): 1.73, 0.00, wtime: 8.518 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.167 days, Iteration 840, Δt 2 minutes, max(vel): (1.66e-01, 1.37e-02), max(trac): 1.73, 0.00, wtime: 8.515 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.181 days, Iteration 850, Δt 2 minutes, max(vel): (1.66e-01, 1.37e-02), max(trac): 1.74, 0.00, wtime: 8.520 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.194 days, Iteration 860, Δt 2 minutes, max(vel): (1.66e-01, 1.39e-02), max(trac): 1.74, 0.00, wtime: 8.525 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.208 days, Iteration 870, Δt 2 minutes, max(vel): (1.66e-01, 1.38e-02), max(trac): 1.74, 0.00, wtime: 8.526 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.222 days, Iteration 880, Δt 2 minutes, max(vel): (1.66e-01, 1.38e-02), max(trac): 1.75, 0.00, wtime: 8.524 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.236 days, Iteration 890, Δt 2 minutes, max(vel): (1.66e-01, 1.39e-02), max(trac): 1.75, 0.00, wtime: 8.564 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.250 days, Iteration 900, Δt 2 minutes, max(vel): (1.66e-01, 1.41e-02), max(trac): 1.75, 0.00, wtime: 8.535 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.264 days, Iteration 910, Δt 2 minutes, max(vel): (1.66e-01, 1.41e-02), max(trac): 1.75, 0.00, wtime: 8.524 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.278 days, Iteration 920, Δt 2 minutes, max(vel): (1.66e-01, 1.42e-02), max(trac): 1.76, 0.00, wtime: 8.519 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.292 days, Iteration 930, Δt 2 minutes, max(vel): (1.66e-01, 1.42e-02), max(trac): 1.76, 0.00, wtime: 8.466 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.306 days, Iteration 940, Δt 2 minutes, max(vel): (1.66e-01, 1.43e-02), max(trac): 1.76, 0.00, wtime: 8.477 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.319 days, Iteration 950, Δt 2 minutes, max(vel): (1.66e-01, 1.43e-02), max(trac): 1.77, 0.00, wtime: 8.532 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.333 days, Iteration 960, Δt 2 minutes, max(vel): (1.66e-01, 1.45e-02), max(trac): 1.77, 0.00, wtime: 8.524 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.347 days, Iteration 970, Δt 2 minutes, max(vel): (1.66e-01, 1.45e-02), max(trac): 1.78, 0.00, wtime: 8.495 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.361 days, Iteration 980, Δt 2 minutes, max(vel): (1.66e-01, 1.46e-02), max(trac): 1.78, 0.00, wtime: 8.511 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.375 days, Iteration 990, Δt 2 minutes, max(vel): (1.66e-01, 1.47e-02), max(trac): 1.78, 0.00, wtime: 8.469 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.389 days, Iteration 1000, Δt 2 minutes, max(vel): (1.66e-01, 1.47e-02), max(trac): 1.79, 0.00, wtime: 8.467 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.403 days, Iteration 1010, Δt 2 minutes, max(vel): (1.66e-01, 1.48e-02), max(trac): 1.79, 0.00, wtime: 8.466 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.417 days, Iteration 1020, Δt 2 minutes, max(vel): (1.66e-01, 1.49e-02), max(trac): 1.80, 0.00, wtime: 8.528 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.431 days, Iteration 1030, Δt 2 minutes, max(vel): (1.66e-01, 1.50e-02), max(trac): 1.80, 0.00, wtime: 8.489 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.444 days, Iteration 1040, Δt 2 minutes, max(vel): (1.66e-01, 1.50e-02), max(trac): 1.81, 0.00, wtime: 8.412 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.458 days, Iteration 1050, Δt 2 minutes, max(vel): (1.66e-01, 1.51e-02), max(trac): 1.81, 0.00, wtime: 8.462 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.472 days, Iteration 1060, Δt 2 minutes, max(vel): (1.66e-01, 1.53e-02), max(trac): 1.82, 0.00, wtime: 8.525 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.486 days, Iteration 1070, Δt 2 minutes, max(vel): (1.66e-01, 1.53e-02), max(trac): 1.82, 0.00, wtime: 8.522 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.500 days, Iteration 1080, Δt 2 minutes, max(vel): (1.66e-01, 1.54e-02), max(trac): 1.83, 0.00, wtime: 8.534 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.514 days, Iteration 1090, Δt 2 minutes, max(vel): (1.66e-01, 1.55e-02), max(trac): 1.83, 0.00, wtime: 8.419 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.528 days, Iteration 1100, Δt 2 minutes, max(vel): (1.66e-01, 1.55e-02), max(trac): 1.84, 0.00, wtime: 8.352 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.542 days, Iteration 1110, Δt 2 minutes, max(vel): (1.66e-01, 1.56e-02), max(trac): 1.84, 0.00, wtime: 8.517 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.556 days, Iteration 1120, Δt 2 minutes, max(vel): (1.66e-01, 1.56e-02), max(trac): 1.84, 0.00, wtime: 8.520 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.569 days, Iteration 1130, Δt 2 minutes, max(vel): (1.66e-01, 1.58e-02), max(trac): 1.85, 0.00, wtime: 8.519 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.583 days, Iteration 1140, Δt 2 minutes, max(vel): (1.66e-01, 1.58e-02), max(trac): 1.85, 0.00, wtime: 8.519 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.597 days, Iteration 1150, Δt 2 minutes, max(vel): (1.66e-01, 1.59e-02), max(trac): 1.86, 0.00, wtime: 8.521 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.611 days, Iteration 1160, Δt 2 minutes, max(vel): (1.66e-01, 1.59e-02), max(trac): 1.86, 0.00, wtime: 8.513 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.625 days, Iteration 1170, Δt 2 minutes, max(vel): (1.66e-01, 1.60e-02), max(trac): 1.87, 0.00, wtime: 8.512 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.639 days, Iteration 1180, Δt 2 minutes, max(vel): (1.66e-01, 1.60e-02), max(trac): 1.87, 0.00, wtime: 8.515 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.653 days, Iteration 1190, Δt 2 minutes, max(vel): (1.66e-01, 1.61e-02), max(trac): 1.88, 0.00, wtime: 8.516 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.667 days, Iteration 1200, Δt 2 minutes, max(vel): (1.66e-01, 1.61e-02), max(trac): 1.88, 0.00, wtime: 8.525 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.681 days, Iteration 1210, Δt 2 minutes, max(vel): (1.66e-01, 1.62e-02), max(trac): 1.88, 0.00, wtime: 8.530 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.694 days, Iteration 1220, Δt 2 minutes, max(vel): (1.66e-01, 1.61e-02), max(trac): 1.89, 0.00, wtime: 8.503 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.708 days, Iteration 1230, Δt 2 minutes, max(vel): (1.66e-01, 1.61e-02), max(trac): 1.89, 0.00, wtime: 8.552 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.722 days, Iteration 1240, Δt 2 minutes, max(vel): (1.66e-01, 1.62e-02), max(trac): 1.90, 0.00, wtime: 8.540 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.736 days, Iteration 1250, Δt 2 minutes, max(vel): (1.66e-01, 1.62e-02), max(trac): 1.90, 0.00, wtime: 8.524 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.750 days, Iteration 1260, Δt 2 minutes, max(vel): (1.66e-01, 1.62e-02), max(trac): 1.91, 0.00, wtime: 8.546 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.764 days, Iteration 1270, Δt 2 minutes, max(vel): (1.66e-01, 1.63e-02), max(trac): 1.91, 0.00, wtime: 8.511 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.778 days, Iteration 1280, Δt 2 minutes, max(vel): (1.66e-01, 1.62e-02), max(trac): 1.92, 0.00, wtime: 8.524 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.792 days, Iteration 1290, Δt 2 minutes, max(vel): (1.66e-01, 1.62e-02), max(trac): 1.92, 0.00, wtime: 8.528 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.806 days, Iteration 1300, Δt 2 minutes, max(vel): (1.66e-01, 1.62e-02), max(trac): 1.92, 0.00, wtime: 8.515 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.819 days, Iteration 1310, Δt 2 minutes, max(vel): (1.66e-01, 1.62e-02), max(trac): 1.93, 0.00, wtime: 8.530 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.833 days, Iteration 1320, Δt 2 minutes, max(vel): (1.66e-01, 1.63e-02), max(trac): 1.93, 0.00, wtime: 8.539 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.847 days, Iteration 1330, Δt 2 minutes, max(vel): (1.66e-01, 1.62e-02), max(trac): 1.94, 0.00, wtime: 8.498 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.861 days, Iteration 1340, Δt 2 minutes, max(vel): (1.66e-01, 1.62e-02), max(trac): 1.94, 0.00, wtime: 8.526 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.875 days, Iteration 1350, Δt 2 minutes, max(vel): (1.66e-01, 1.61e-02), max(trac): 1.95, 0.00, wtime: 8.524 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.889 days, Iteration 1360, Δt 2 minutes, max(vel): (1.66e-01, 1.60e-02), max(trac): 1.95, 0.00, wtime: 8.534 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.903 days, Iteration 1370, Δt 2 minutes, max(vel): (1.66e-01, 1.60e-02), max(trac): 1.95, 0.00, wtime: 8.531 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.917 days, Iteration 1380, Δt 2 minutes, max(vel): (1.66e-01, 1.60e-02), max(trac): 1.96, 0.00, wtime: 8.493 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.931 days, Iteration 1390, Δt 2 minutes, max(vel): (1.66e-01, 1.60e-02), max(trac): 1.96, 0.00, wtime: 8.531 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.944 days, Iteration 1400, Δt 2 minutes, max(vel): (1.66e-01, 1.59e-02), max(trac): 1.97, 0.00, wtime: 8.519 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.958 days, Iteration 1410, Δt 2 minutes, max(vel): (1.66e-01, 1.59e-02), max(trac): 1.97, 0.00, wtime: 8.513 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.972 days, Iteration 1420, Δt 2 minutes, max(vel): (1.66e-01, 1.58e-02), max(trac): 1.97, 0.00, wtime: 8.504 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 1.986 days, Iteration 1430, Δt 2 minutes, max(vel): (1.66e-01, 1.58e-02), max(trac): 1.98, 0.00, wtime: 8.517 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 21.072 minutes.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 2 days equals or exceeds stop time 2 days.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Time: 2 days, Iteration 1440, Δt 2 minutes, max(vel): (1.66e-01, 1.57e-02), max(trac): 1.98, 0.00, wtime: 8.508 seconds</code></pre><p>Visualize!</p><pre><code class="language-julia hljs">Nt = length(htimeseries)
+iter = Observable(1)
+
+hi = @lift(htimeseries[$iter][:, :, 1])
+ℵi = @lift(ℵtimeseries[$iter][:, :, 1])
+ui = @lift(utimeseries[$iter][:, :, 1])
+vi = @lift(vtimeseries[$iter][:, :, 1])
+
+fig = Figure(size = (1000, 500))
+ax = Axis(fig[1, 1], title = &quot;sea ice thickness&quot;)
+heatmap!(ax, hi, colormap = :magma,         colorrange = (0.0, 2.0))
+
+ax = Axis(fig[1, 2], title = &quot;sea ice concentration&quot;)
+heatmap!(ax, ℵi, colormap = Reverse(:deep), colorrange = (0.0, 1))
+
+ax = Axis(fig[2, 1], title = &quot;zonal velocity&quot;)
+heatmap!(ax, ui, colorrange = (0, 0.12), colormap = :balance)
+
+ax = Axis(fig[2, 2], title = &quot;meridional velocity&quot;)
+heatmap!(ax, vi, colorrange = (-0.025, 0.025), colormap = :bwr)
+
+CairoMakie.record(fig, &quot;sea_ice_advected_on_coastline.mp4&quot;, 1:Nt, framerate = 8) do i
+    iter[] = i
+    @info &quot;doing iter $i&quot;
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 1
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 2
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 3
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 4
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 5
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 6
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 7
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 8
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 9
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 10
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 11
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 12
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 13
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 14
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 15
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 16
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 17
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 18
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 19
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 20
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 21
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 22
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 23
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 24
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 25
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 26
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 27
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 28
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 29
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 30
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 31
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 32
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 33
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 34
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 35
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 36
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 37
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 38
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 39
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 40
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 41
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 42
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 43
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 44
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 45
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 46
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 47
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 48
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 49
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 50
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 51
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 52
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 53
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 54
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 55
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 56
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 57
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 58
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 59
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 60
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 61
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 62
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 63
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 64
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 65
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 66
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 67
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 68
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 69
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 70
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 71
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 72
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 73
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 74
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 75
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 76
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 77
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 78
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 79
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 80
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 81
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 82
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 83
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 84
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 85
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 86
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 87
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 88
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 89
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 90
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 91
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 92
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 93
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 94
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 95
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 96
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 97
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 98
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 99
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 100
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 101
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 102
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 103
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 104
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 105
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 106
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 107
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 108
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 109
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 110
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 111
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 112
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 113
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 114
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 115
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 116
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 117
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 118
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 119
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 120
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 121
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 122
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 123
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 124
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 125
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 126
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 127
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 128
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 129
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 130
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 131
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 132
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 133
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 134
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 135
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 136
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 137
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 138
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 139
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 140
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 141
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 142
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 143
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 144
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>doing iter 145</code></pre><p><video src="../sea_ice_advected_on_coastline.mp4" controls="true" title><a href="../sea_ice_advected_on_coastline.mp4"></a></video></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../ice_advected_by_anticyclone/">« Ice advected by anticyclone</a><a class="docs-footer-nextpage" href="../arctic_basin_seasonal_cycle/">Arctic basin seasonal cycle »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.14.1 on <span class="colophon-date" title="Monday 28 July 2025 09:40">Monday 28 July 2025</span>. Using Julia version 1.10.10.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
