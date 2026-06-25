@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Column energy comparison · ClimaSeaIce.jl</title><meta name="title" content="Column energy comparison · ClimaSeaIce.jl"/><meta property="og:title" content="Column energy comparison · ClimaSeaIce.jl"/><meta property="twitter:title" content="Column energy comparison · ClimaSeaIce.jl"/><meta name="description" content="Documentation for ClimaSeaIce.jl."/><meta property="og:description" content="Documentation for ClimaSeaIce.jl."/><meta property="twitter:description" content="Documentation for ClimaSeaIce.jl."/><meta property="og:url" content="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/column_energy_comparison/"/><meta property="twitter:url" content="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/column_energy_comparison/"/><link rel="canonical" href="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/column_energy_comparison/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">ClimaSeaIce.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Physics</span><ul><li><a class="tocitem" href="../../physics/thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../physics/column_energy_thermodynamics/">Column energy thermodynamics</a></li><li><a class="tocitem" href="../../physics/layered_snow_ice_implementation/">Layered snow + ice implementation</a></li><li><a class="tocitem" href="../../physics/dynamics_and_rheology/">Dynamics and Rheology</a></li></ul></li><li><span class="tocitem">Examples</span><ul><li><a class="tocitem" href="../freezing_bucket/">Freezing bucket</a></li><li><a class="tocitem" href="../melting_in_spring/">Melting in Spring</a></li><li><a class="tocitem" href="../freezing_of_a_lake/">Freezing of a Lake</a></li><li class="is-active"><a class="tocitem" href>Column energy comparison</a><ul class="internal"><li><a class="tocitem" href="#Install-dependencies"><span>Install dependencies</span></a></li><li><a class="tocitem" href="#Model-configuration"><span>Model configuration</span></a></li><li><a class="tocitem" href="#Running-the-columns"><span>Running the columns</span></a></li><li><a class="tocitem" href="#Quantitative-comparison"><span>Quantitative comparison</span></a></li><li><a class="tocitem" href="#Final-profiles"><span>Final profiles</span></a></li><li><a class="tocitem" href="#Temperature-animation"><span>Temperature animation</span></a></li><li><a class="tocitem" href="#Surface-melting"><span>Surface melting</span></a></li><li><a class="tocitem" href="#Resolved-column-versus-slab-under-identical-forcing"><span>Resolved column versus slab under identical forcing</span></a></li></ul></li><li><a class="tocitem" href="../ice_advected_by_anticyclone/">Ice advected by anticyclone</a></li><li><a class="tocitem" href="../ice_advected_on_coastline/">Ice advected on coastline</a></li><li><a class="tocitem" href="../arctic_basin_seasonal_cycle/">Arctic basin seasonal cycle</a></li></ul></li><li><span class="tocitem">Validation</span><ul><li><a class="tocitem" href="../../validation/bitz_lipscomb_cice/">Bitz-Lipscomb CICE</a></li></ul></li><li><a class="tocitem" href="../../timestepping/">Timestepping</a></li><li><span class="tocitem">Library</span><ul><li><a class="tocitem" href="../../library/outline/">Contents</a></li><li><a class="tocitem" href="../../library/public/">Public</a></li><li><a class="tocitem" href="../../library/internals/">Private</a></li><li><a class="tocitem" href="../../library/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Column energy comparison</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Column energy comparison</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/ClimaSeaIce.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/ClimaSeaIce.jl/blob/main/examples/column_energy_comparison.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Column-energy-thermodynamics-comparison"><a class="docs-heading-anchor" href="#Column-energy-thermodynamics-comparison">Column energy thermodynamics comparison</a><a id="Column-energy-thermodynamics-comparison-1"></a><a class="docs-heading-anchor-permalink" href="#Column-energy-thermodynamics-comparison" title="Permalink"></a></h1><p>This example compares two one-dimensional column configurations:</p><ul><li>a Bitz-Lipscomb-style fixed-salinity enthalpy column, constructed with <code>prescribed_salinity_enthalpy_thermodynamics</code>;</li><li>an evolving-salinity mushy column, constructed with <code>evolving_salinity_mushy_thermodynamics</code>.</li></ul><p>Both columns start from the same temperature and bulk-salinity profiles and use the same surface cooling and basal ocean heat flux. The fixed-salinity column keeps bulk salinity prescribed, while the mushy column diffuses bulk salinity with closed salinity boundaries.</p><h2 id="Install-dependencies"><a class="docs-heading-anchor" href="#Install-dependencies">Install dependencies</a><a id="Install-dependencies-1"></a><a class="docs-heading-anchor-permalink" href="#Install-dependencies" title="Permalink"></a></h2><pre><code class="language-julia hljs">using Pkg
+pkg&quot;add Oceananigans, ClimaSeaIce, CairoMakie&quot;</code></pre><pre><code class="language-julia hljs">using Printf
+using Oceananigans
+using Oceananigans.Fields: Field, interior, set!
+using Oceananigans.Units
+using Oceananigans.TimeSteppers: Clock
+using ClimaSeaIce
+using ClimaSeaIce.SeaIceThermodynamics
+import ClimaSeaIce.SeaIceThermodynamics: initialize_column_interfaces!
+using CairoMakie</code></pre><p>Forcing now lives in a model-style <code>external_heat_fluxes = (top, bottom)</code> set evaluated through <code>getflux</code>, decoupled from the <code>heat_boundary_conditions</code> behavior. These columns use scalar fluxes, so the clock and the (empty) model fields are inert placeholders that <code>getflux</code> ignores.</p><pre><code class="language-julia hljs">clock = Clock(time = 0.0)
+model_fields = NamedTuple()</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">NamedTuple()</code></pre><h2 id="Model-configuration"><a class="docs-heading-anchor" href="#Model-configuration">Model configuration</a><a id="Model-configuration-1"></a><a class="docs-heading-anchor-permalink" href="#Model-configuration" title="Permalink"></a></h2><p>The vertical coordinate runs from the ice base, <span>$z = 0$</span>, to the ice surface, <span>$z = 1$</span> meter. Fluxes follow the model convention shared with the slab: positive means heat leaving the ice, so a positive top flux cools the column (heat into the air) and a positive bottom flux warms it (ocean heat into the base).</p><pre><code class="language-julia hljs">Nz = 32
+grid = RectilinearGrid(size = Nz,
+                       z = SeaIceColumnDiscretization((0, 1)),
+                       topology = (Flat, Flat, Bounded))
+
+relation = QuadraticLiquidusEnergyRelation(Float64)
+
+top_surface_flux = 15.0  # W m^-2, cooling at the top face (heat into the air)
+bottom_ocean_flux = 2.0  # W m^-2, ocean heat input at the bottom face
+
+heat_boundary_conditions = (top = FluxBoundary(), bottom = FluxBoundary())
+external_heat_fluxes = (top = top_surface_flux, bottom = bottom_ocean_flux)
+
+energy_transport = ConductiveTemperatureTransport(conductivity = 2.0)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">ConductiveTemperatureTransport{Float64}(2.0)</code></pre><p>The initial salinity increases toward the surface. The mushy configuration smooths this profile with a deliberately visible closed-boundary diffusivity.</p><pre><code class="language-julia hljs">initial_temperature(z) = -4 - 10z
+initial_salinity(z) = 4 + 3z
+
+bl = prescribed_salinity_enthalpy_thermodynamics(grid;
+    relation,
+    salinity_profile = initial_salinity,
+    energy_transport,
+    heat_boundary_conditions)
+
+mushy = evolving_salinity_mushy_thermodynamics(grid;
+    relation,
+    energy_transport,
+    salinity_transport = BulkSalinityDiffusion(diffusivity = 2e-7),
+    heat_boundary_conditions)
+
+set!(bl; temperature = initial_temperature,
+         bulk_salinity = initial_salinity)
+
+set!(mushy; temperature = initial_temperature,
+            bulk_salinity = initial_salinity)</code></pre><h2 id="Running-the-columns"><a class="docs-heading-anchor" href="#Running-the-columns">Running the columns</a><a id="Running-the-columns-1"></a><a class="docs-heading-anchor-permalink" href="#Running-the-columns" title="Permalink"></a></h2><p>We step both columns for twelve days and store temperature and salinity profiles every six hours for plotting and animation.</p><pre><code class="language-julia hljs">Δt = 1hour
+stop_time = 12days
+save_interval = 6hours
+Nt = round(Int, stop_time / Δt)
+save_stride = round(Int, save_interval / Δt)
+
+column_values(field) = vec(Array(interior(field, 1, 1, :)))
+
+times = Float64[]
+bl_temperatures = Vector{Vector{Float64}}()
+mushy_temperatures = Vector{Vector{Float64}}()
+bl_salinity = Vector{Vector{Float64}}()
+mushy_salinity = Vector{Vector{Float64}}()
+
+function save_state!(time)
+    push!(times, time)
+    push!(bl_temperatures, column_values(bl.fields.temperature))
+    push!(mushy_temperatures, column_values(mushy.fields.temperature))
+    push!(bl_salinity, column_values(bl.fields.bulk_salinity))
+    push!(mushy_salinity, column_values(mushy.fields.bulk_salinity))
+    return nothing
+end
+
+initial_bl_energy = column_integrated_energy(bl)
+initial_mushy_energy = column_integrated_energy(mushy)
+initial_mushy_salt = column_integrated_salinity(mushy)
+
+save_state!(0)
+
+for n in 1:Nt
+    column_energy_time_step!(bl, external_heat_fluxes, clock, model_fields, Δt)
+    column_energy_time_step!(mushy, external_heat_fluxes, clock, model_fields, Δt)
+
+    if n % save_stride == 0
+        save_state!(n * Δt)
+    end
+end</code></pre><h2 id="Quantitative-comparison"><a class="docs-heading-anchor" href="#Quantitative-comparison">Quantitative comparison</a><a id="Quantitative-comparison-1"></a><a class="docs-heading-anchor-permalink" href="#Quantitative-comparison" title="Permalink"></a></h2><pre><code class="language-julia hljs">bl_energy_budget = column_energy_budget(bl, external_heat_fluxes, clock, model_fields, initial_bl_energy, stop_time)
+mushy_energy_budget = column_energy_budget(mushy, external_heat_fluxes, clock, model_fields, initial_mushy_energy, stop_time)
+mushy_salt_budget = column_salt_budget(mushy, initial_mushy_salt, stop_time)
+
+final_bl_temperature = last(bl_temperatures)
+final_mushy_temperature = last(mushy_temperatures)
+final_bl_salinity = last(bl_salinity)
+final_mushy_salinity = last(mushy_salinity)
+
+comparison = (
+    elapsed_days = stop_time / day,
+    bl_surface_temperature = final_bl_temperature[end],
+    mushy_surface_temperature = final_mushy_temperature[end],
+    max_temperature_difference = maximum(abs.(final_bl_temperature .- final_mushy_temperature)),
+    max_salinity_difference = maximum(abs.(final_bl_salinity .- final_mushy_salinity)),
+    bl_energy_budget_relative_residual = bl_energy_budget.relative_residual,
+    mushy_energy_budget_relative_residual = mushy_energy_budget.relative_residual,
+    mushy_salt_budget_relative_residual = mushy_salt_budget.relative_residual,
+)
+
+println(&quot;Column comparison after &quot;, comparison.elapsed_days, &quot; days&quot;)
+@printf(&quot;  BL surface temperature:    %.3f °C\n&quot;, comparison.bl_surface_temperature)
+@printf(&quot;  Mushy surface temperature: %.3f °C\n&quot;, comparison.mushy_surface_temperature)
+@printf(&quot;  Max |T_BL - T_mushy|:      %.3e K\n&quot;, comparison.max_temperature_difference)
+@printf(&quot;  Max |S_BL - S_mushy|:      %.3e psu\n&quot;, comparison.max_salinity_difference)
+@printf(&quot;  BL energy budget residual: %.3e\n&quot;, comparison.bl_energy_budget_relative_residual)
+@printf(&quot;  Mushy energy residual:     %.3e\n&quot;, comparison.mushy_energy_budget_relative_residual)
+@printf(&quot;  Mushy salt residual:       %.3e\n&quot;, comparison.mushy_salt_budget_relative_residual)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Column comparison after 12.0 days
+  BL surface temperature:    -16.397 °C
+  Mushy surface temperature: -16.436 °C
+  Max |T_BL - T_mushy|:      3.832e-02 K
+  Max |S_BL - S_mushy|:      1.295e+00 psu
+  BL energy budget residual: 4.422e-15
+  Mushy energy residual:     2.764e-15
+  Mushy salt residual:       1.004e-13</code></pre><h2 id="Final-profiles"><a class="docs-heading-anchor" href="#Final-profiles">Final profiles</a><a id="Final-profiles-1"></a><a class="docs-heading-anchor-permalink" href="#Final-profiles" title="Permalink"></a></h2><pre><code class="language-julia hljs">z = collect(range(1 / (2Nz), 1 - 1 / (2Nz), length = Nz))
+
+set_theme!(Theme(fontsize = 18, linewidth = 3))
+colors = Makie.wong_colors()
+
+fig = Figure(size = (1000, 620))
+
+axT = Axis(fig[1, 1],
+           xlabel = &quot;Temperature (°C)&quot;,
+           ylabel = &quot;Height above ice base (m)&quot;,
+           title = &quot;Temperature after 12 days&quot;)
+
+axS = Axis(fig[1, 2],
+           xlabel = &quot;Bulk salinity (psu)&quot;,
+           ylabel = &quot;Height above ice base (m)&quot;,
+           title = &quot;Bulk salinity after 12 days&quot;)
+
+lines!(axT, first(bl_temperatures), z, color = (:gray30, 0.5), label = &quot;initial&quot;)
+lines!(axT, final_bl_temperature, z, color = colors[1], label = &quot;BL fixed salinity&quot;)
+lines!(axT, final_mushy_temperature, z, color = colors[2], linestyle = :dash, label = &quot;mushy evolving salinity&quot;)
+
+lines!(axS, first(bl_salinity), z, color = (:gray30, 0.5), label = &quot;initial&quot;)
+lines!(axS, final_bl_salinity, z, color = colors[1], label = &quot;BL fixed salinity&quot;)
+lines!(axS, final_mushy_salinity, z, color = colors[2], linestyle = :dash, label = &quot;mushy evolving salinity&quot;)
+
+axislegend(axT, position = :lb)
+axislegend(axS, position = :lb)
+
+save(&quot;column_energy_comparison.png&quot;, fig)</code></pre><p><img src="../column_energy_comparison.png" alt/></p><h2 id="Temperature-animation"><a class="docs-heading-anchor" href="#Temperature-animation">Temperature animation</a><a id="Temperature-animation-1"></a><a class="docs-heading-anchor-permalink" href="#Temperature-animation" title="Permalink"></a></h2><p>The animation shows both temperature profiles throughout the run. The BL column remains tied to the fixed salinity profile, while the mushy column evolves as salinity diffusion changes the local energy-temperature relation.</p><pre><code class="language-julia hljs">animation = Figure(size = (760, 560))
+ax = Axis(animation[1, 1],
+          xlabel = &quot;Temperature (°C)&quot;,
+          ylabel = &quot;Height above ice base (m)&quot;,
+          title = &quot;Column temperature evolution&quot;)
+
+xlims!(ax, -19, -3)
+ylims!(ax, 0, 1)
+
+frame = Observable(1)
+bl_frame = @lift bl_temperatures[$frame]
+mushy_frame = @lift mushy_temperatures[$frame]
+time_label = lift(frame) do n
+    @sprintf(&quot;t = %.1f days&quot;, times[n] / day)
+end
+
+lines!(ax, bl_frame, z, color = colors[1], label = &quot;BL fixed salinity&quot;)
+lines!(ax, mushy_frame, z, color = colors[2], linestyle = :dash, label = &quot;mushy evolving salinity&quot;)
+text!(ax, -18.5, 0.08, text = time_label, align = (:left, :bottom))
+axislegend(ax, position = :lb)
+
+CairoMakie.record(animation, &quot;column_energy_temperature_evolution.mp4&quot;, eachindex(times);
+                  framerate = 8) do n
+    frame[] = n
+end</code></pre><p><video src="../column_energy_temperature_evolution.mp4" controls="true" title><a href="../column_energy_temperature_evolution.mp4"></a></video></p><h2 id="Surface-melting"><a class="docs-heading-anchor" href="#Surface-melting">Surface melting</a><a id="Surface-melting-1"></a><a class="docs-heading-anchor-permalink" href="#Surface-melting" title="Permalink"></a></h2><p>The fixed-grid column solve does not move grid faces. To demonstrate melting, we pair a <code>MeltingConstrainedFluxBalance</code> top with a requested surface flux in <code>external_heat_fluxes</code>: the flux warms the top cell until it reaches complete melt, and any remaining flux is returned as a Stefan residual. That residual then updates a separate ice-thickness field.</p><pre><code class="language-julia hljs">melt_grid = RectilinearGrid(size = 1,
+                            z = SeaIceColumnDiscretization((0, 1)),
+                            topology = (Flat, Flat, Bounded))
+
+melt_salinity = 3.0
+melt_initial_temperature = -0.2
+requested_melt_flux = 1000.0 # W m^-2 into the surface
+melt_time_step = 1hour
+melt_stop_time = 2days
+ρi = 900.0
+
+melt_heat_boundary_conditions = (top = MeltingConstrainedFluxBalance(), bottom = FluxBoundary())</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">(top = MeltingConstrainedFluxBalance{ClimaSeaIce.SeaIceThermodynamics.HeatBoundaryConditions.NonlinearSurfaceTemperatureSolver}(ClimaSeaIce.SeaIceThermodynamics.HeatBoundaryConditions.NonlinearSurfaceTemperatureSolver()), bottom = FluxBoundary())</code></pre><p>A warming surface flux (heat into the ice) is negative in the upward-positive convention.</p><pre><code class="language-julia hljs">melt_external_heat_fluxes = (top = -requested_melt_flux, bottom = 0.0)
+
+melt_column = prescribed_salinity_enthalpy_thermodynamics(melt_grid;
+    relation,
+    salinity_profile = melt_salinity,
+    energy_transport = ConductiveTemperatureTransport(conductivity = 0.0),
+    heat_boundary_conditions = melt_heat_boundary_conditions)
+
+set!(melt_column; bulk_salinity = melt_salinity,
+                  temperature = melt_initial_temperature)
+
+ice_thickness = Field{Center, Center, Nothing}(melt_grid)
+surface_residual_flux = Field{Center, Center, Nothing}(melt_grid)
+set!(ice_thickness, 1.0)
+
+melt_times = Float64[]
+melt_thicknesses = Float64[]
+melt_temperatures = Float64[]
+melt_residuals = Float64[]
+melt_budget_residuals = Float64[]
+
+function save_melt_state!(time, residual_flux, budget_residual)
+    push!(melt_times, time)
+    push!(melt_thicknesses, first(interior(ice_thickness)))
+    push!(melt_temperatures, first(interior(melt_column.fields.temperature)))
+    push!(melt_residuals, residual_flux)
+    push!(melt_budget_residuals, budget_residual)
+    return nothing
+end
+
+save_melt_state!(0, 0.0, 0.0)
+
+for n in 1:round(Int, melt_stop_time / melt_time_step)
+    initial_energy = column_integrated_energy(melt_column)
+    compute_column_surface_stefan_residual_flux!(surface_residual_flux, melt_column,
+                                                 melt_external_heat_fluxes, clock, model_fields, melt_time_step)
+    residual_flux = first(interior(surface_residual_flux))
+
+    column_energy_time_step!(melt_column, melt_external_heat_fluxes, clock, model_fields, melt_time_step)
+    column_stefan_thickness_update!(ice_thickness,
+                                    relation.phase_transitions,
+                                    ρi,
+                                    surface_residual_flux,
+                                    melt_time_step)
+
+    budget = column_energy_budget(melt_column, melt_external_heat_fluxes, clock, model_fields,
+                                  initial_energy, melt_time_step;
+                                  surface_stefan_residual_flux = residual_flux)
+
+    save_melt_state!(n * melt_time_step, residual_flux, budget.relative_residual)
+end
+
+melt_result = (
+    final_thickness = last(melt_thicknesses),
+    thickness_loss = first(melt_thicknesses) - last(melt_thicknesses),
+    final_temperature = last(melt_temperatures),
+    maximum_melt_flux = -minimum(melt_residuals),
+    maximum_budget_residual = maximum(abs.(melt_budget_residuals)),
+)
+
+println(&quot;Surface melting case after &quot;, melt_stop_time / day, &quot; days&quot;)
+@printf(&quot;  Final thickness:          %.3f m\n&quot;, melt_result.final_thickness)
+@printf(&quot;  Thickness lost:           %.3f m\n&quot;, melt_result.thickness_loss)
+@printf(&quot;  Final column temperature: %.3f °C\n&quot;, melt_result.final_temperature)
+@printf(&quot;  Maximum melt flux:        %.3f W m^-2\n&quot;, melt_result.maximum_melt_flux)
+@printf(&quot;  Max budget residual:      %.3e\n&quot;, melt_result.maximum_budget_residual)
+
+melt_fig = Figure(size = (980, 720))
+
+axh = Axis(melt_fig[1, 1],
+           xlabel = &quot;Time (days)&quot;,
+           ylabel = &quot;Ice thickness (m)&quot;,
+           title = &quot;Surface melt from Stefan residual&quot;)
+
+axr = Axis(melt_fig[2, 1],
+           xlabel = &quot;Time (days)&quot;,
+           ylabel = &quot;Residual flux (W m⁻²)&quot;,
+           title = &quot;Negative residual flux melts ice&quot;)
+
+axmT = Axis(melt_fig[3, 1],
+            xlabel = &quot;Time (days)&quot;,
+            ylabel = &quot;Column temperature (°C)&quot;,
+            title = &quot;Fixed-grid cell warms to complete melt&quot;)
+
+lines!(axh, melt_times ./ day, melt_thicknesses, color = colors[3])
+lines!(axr, melt_times ./ day, melt_residuals, color = colors[4])
+lines!(axmT, melt_times ./ day, melt_temperatures, color = colors[5])
+
+save(&quot;column_energy_surface_melt.png&quot;, melt_fig)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Surface melting case after 2.0 days
+  Final thickness:          0.636 m
+  Thickness lost:           0.364 m
+  Final column temperature: -0.162 °C
+  Maximum melt flux:        1000.000 W m^-2
+  Max budget residual:      0.000e+00</code></pre><p><img src="../column_energy_surface_melt.png" alt/></p><h2 id="Resolved-column-versus-slab-under-identical-forcing"><a class="docs-heading-anchor" href="#Resolved-column-versus-slab-under-identical-forcing">Resolved column versus slab under identical forcing</a><a id="Resolved-column-versus-slab-under-identical-forcing-1"></a><a class="docs-heading-anchor-permalink" href="#Resolved-column-versus-slab-under-identical-forcing" title="Permalink"></a></h2><p>The column thermodynamics reads its forcing from <code>model.external_heat_fluxes</code>, exactly like <code>SlabThermodynamics</code>, so the <em>same</em> flux set drives both. Here we place a resolved column and a zero-dimensional slab under an identical cooling surface flux and an ice–ocean equilibrium base, then compare how the ice thickness grows. Fluxes are upward-positive (shared with the slab), so the cooling surface flux is positive. The two stay close, with the resolved column lagging slightly because it stores internal energy that the quasi-steady slab does not.</p><pre><code class="language-julia hljs">comparison_top_flux = 30.0 # W m^-2, surface cooling
+comparison_time_step = 1hour
+comparison_stop_time = 60days
+comparison_steps = round(Int, comparison_stop_time / comparison_time_step)
+comparison_save_stride = round(Int, 1day / comparison_time_step)
+initial_comparison_thickness = 0.5
+
+column_grid = RectilinearGrid(size = (1, 1, 16),
+                              x = (0, 1), y = (0, 1),
+                              z = SeaIceColumnDiscretization((0, 3)),
+                              topology = (Periodic, Periodic, Bounded))
+
+column_thermodynamics = prescribed_salinity_enthalpy_thermodynamics(column_grid;
+    relation,
+    salinity_profile = 0.0,
+    energy_transport = ConductiveTemperatureTransport(conductivity = 2.0),
+    heat_boundary_conditions = (top = MeltingConstrainedFluxBalance(),
+                                bottom = IceWaterThermalEquilibrium(salinity = 0)))
+
+column_model = SeaIceModel(column_grid;
+    ice_thermodynamics = column_thermodynamics,
+    top_heat_flux = comparison_top_flux,
+    bottom_heat_flux = 0)
+
+set!(column_model, h = initial_comparison_thickness, ℵ = 1)
+initialize_column_interfaces!(column_grid, column_model.ice_thickness)
+set!(column_thermodynamics; bulk_salinity = 0.0, temperature = -5.0)
+
+slab_grid = RectilinearGrid(size = (1, 1, 1),
+                            x = (0, 1), y = (0, 1),
+                            z = (-3, 0),
+                            topology = (Periodic, Periodic, Bounded))
+
+slab_model = SeaIceModel(slab_grid;
+    ice_thermodynamics = sea_ice_slab_thermodynamics(slab_grid),
+    top_heat_flux = comparison_top_flux,
+    bottom_heat_flux = 0)
+
+set!(slab_model, h = initial_comparison_thickness, ℵ = 1)
+
+comparison_times = Float64[0]
+column_thickness = Float64[initial_comparison_thickness]
+slab_thickness = Float64[initial_comparison_thickness]
+
+for n in 1:comparison_steps
+    time_step!(column_model, comparison_time_step)
+    time_step!(slab_model, comparison_time_step)
+
+    if n % comparison_save_stride == 0
+        push!(comparison_times, n * comparison_time_step)
+        push!(column_thickness, first(interior(column_model.ice_thickness)))
+        push!(slab_thickness, first(interior(slab_model.ice_thickness)))
+    end
+end
+
+thickness_comparison = (
+    elapsed_days = comparison_stop_time / day,
+    final_column_thickness = last(column_thickness),
+    final_slab_thickness = last(slab_thickness),
+    max_thickness_difference = maximum(abs.(column_thickness .- slab_thickness)),
+)
+
+println(&quot;Resolved column vs slab after &quot;, thickness_comparison.elapsed_days, &quot; days of identical surface cooling&quot;)
+@printf(&quot;  Column ice thickness:    %.3f m\n&quot;, thickness_comparison.final_column_thickness)
+@printf(&quot;  Slab ice thickness:      %.3f m\n&quot;, thickness_comparison.final_slab_thickness)
+@printf(&quot;  Max |h_column - h_slab|: %.3e m\n&quot;, thickness_comparison.max_thickness_difference)
+
+slab_fig = Figure(size = (820, 520))
+axc = Axis(slab_fig[1, 1],
+           xlabel = &quot;Time (days)&quot;,
+           ylabel = &quot;Ice thickness (m)&quot;,
+           title = &quot;Resolved column vs slab under identical surface cooling&quot;)
+
+lines!(axc, comparison_times ./ day, column_thickness, color = colors[1], label = &quot;resolved column&quot;)
+lines!(axc, comparison_times ./ day, slab_thickness, color = colors[2], linestyle = :dash, label = &quot;slab&quot;)
+axislegend(axc, position = :rb)
+
+save(&quot;column_vs_slab_thickness.png&quot;, slab_fig)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Resolved column vs slab after 60.0 days of identical surface cooling
+  Column ice thickness:    0.990 m
+  Slab ice thickness:      1.017 m
+  Max |h_column - h_slab|: 2.720e-02 m</code></pre><p><img src="../column_vs_slab_thickness.png" alt/></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../freezing_of_a_lake/">« Freezing of a Lake</a><a class="docs-footer-nextpage" href="../ice_advected_by_anticyclone/">Ice advected by anticyclone »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Thursday 25 June 2026 07:57">Thursday 25 June 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Melting in Spring · ClimaSeaIce.jl</title><meta name="title" content="Melting in Spring · ClimaSeaIce.jl"/><meta property="og:title" content="Melting in Spring · ClimaSeaIce.jl"/><meta property="twitter:title" content="Melting in Spring · ClimaSeaIce.jl"/><meta name="description" content="Documentation for ClimaSeaIce.jl."/><meta property="og:description" content="Documentation for ClimaSeaIce.jl."/><meta property="twitter:description" content="Documentation for ClimaSeaIce.jl."/><meta property="og:url" content="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/melting_in_spring/"/><meta property="twitter:url" content="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/melting_in_spring/"/><link rel="canonical" href="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/melting_in_spring/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">ClimaSeaIce.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Physics</span><ul><li><a class="tocitem" href="../../physics/thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../physics/column_energy_thermodynamics/">Column energy thermodynamics</a></li><li><a class="tocitem" href="../../physics/layered_snow_ice_implementation/">Layered snow + ice implementation</a></li><li><a class="tocitem" href="../../physics/dynamics_and_rheology/">Dynamics and Rheology</a></li></ul></li><li><span class="tocitem">Examples</span><ul><li><a class="tocitem" href="../freezing_bucket/">Freezing bucket</a></li><li class="is-active"><a class="tocitem" href>Melting in Spring</a><ul class="internal"><li><a class="tocitem" href="#Install-dependencies"><span>Install dependencies</span></a></li><li><a class="tocitem" href="#The-physical-domain"><span>The physical domain</span></a></li><li><a class="tocitem" href="#Top-boundary-conditions"><span>Top boundary conditions</span></a></li><li><a class="tocitem" href="#Sensible-heat-flux-parameterization"><span>Sensible heat flux parameterization</span></a></li><li><a class="tocitem" href="#Building-the-bare-ice-model"><span>Building the bare-ice model</span></a></li><li><a class="tocitem" href="#Building-the-snow-covered-model"><span>Building the snow-covered model</span></a></li><li><a class="tocitem" href="#Running-both-simulations"><span>Running both simulations</span></a></li><li><a class="tocitem" href="#Resolved-column-bare-ice-simulation"><span>Resolved-column bare-ice simulation</span></a></li><li><a class="tocitem" href="#Extracting-the-time-series"><span>Extracting the time series</span></a></li><li><a class="tocitem" href="#Visualizing-the-results"><span>Visualizing the results</span></a></li></ul></li><li><a class="tocitem" href="../freezing_of_a_lake/">Freezing of a Lake</a></li><li><a class="tocitem" href="../column_energy_comparison/">Column energy comparison</a></li><li><a class="tocitem" href="../ice_advected_by_anticyclone/">Ice advected by anticyclone</a></li><li><a class="tocitem" href="../ice_advected_on_coastline/">Ice advected on coastline</a></li><li><a class="tocitem" href="../arctic_basin_seasonal_cycle/">Arctic basin seasonal cycle</a></li></ul></li><li><span class="tocitem">Validation</span><ul><li><a class="tocitem" href="../../validation/bitz_lipscomb_cice/">Bitz-Lipscomb CICE</a></li></ul></li><li><a class="tocitem" href="../../timestepping/">Timestepping</a></li><li><span class="tocitem">Library</span><ul><li><a class="tocitem" href="../../library/outline/">Contents</a></li><li><a class="tocitem" href="../../library/public/">Public</a></li><li><a class="tocitem" href="../../library/internals/">Private</a></li><li><a class="tocitem" href="../../library/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Melting in Spring</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Melting in Spring</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/ClimaSeaIce.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/ClimaSeaIce.jl/blob/main/examples/melting_in_spring.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Melting-in-spring-example"><a class="docs-heading-anchor" href="#Melting-in-spring-example">Melting in spring example</a><a id="Melting-in-spring-example-1"></a><a class="docs-heading-anchor-permalink" href="#Melting-in-spring-example" title="Permalink"></a></h1><p>This example simulates the melting of relatively thick sea ice in spring when the sun is shining. We compare bare ice with snow-covered ice to show how snow insulation affects melt rates.</p><p>This example demonstrates how to:</p><ul><li>set up a one-dimensional model with multiple grid cells,</li><li>prescribe spatially varying solar insolation,</li><li>use <code>FluxFunction</code> for parameterized heat fluxes,</li><li>add a snow layer with <code>snow_thermodynamics</code>.</li></ul><h2 id="Install-dependencies"><a class="docs-heading-anchor" href="#Install-dependencies">Install dependencies</a><a id="Install-dependencies-1"></a><a class="docs-heading-anchor-permalink" href="#Install-dependencies" title="Permalink"></a></h2><p>First let&#39;s make sure we have all required packages installed.</p><pre><code class="language-julia hljs">using Pkg
+pkg&quot;add Oceananigans, ClimaSeaIce, CairoMakie&quot;</code></pre><h2 id="The-physical-domain"><a class="docs-heading-anchor" href="#The-physical-domain">The physical domain</a><a id="The-physical-domain-1"></a><a class="docs-heading-anchor-permalink" href="#The-physical-domain" title="Permalink"></a></h2><p>We generate a one-dimensional grid with 4 grid cells to model different ice columns subject to different solar insolation:</p><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans.Units
+using ClimaSeaIce
+using ClimaSeaIce.SeaIceThermodynamics: prescribed_salinity_enthalpy_thermodynamics,
+                                        SeaIceColumnDiscretization,
+                                        ConductiveTemperatureTransport,
+                                        IceWaterThermalEquilibrium
+using ClimaSeaIce.SeaIceThermodynamics.HeatBoundaryConditions: RadiativeEmission
+import ClimaSeaIce.SeaIceThermodynamics: initialize_column_interfaces!
+using CairoMakie
+
+grid = RectilinearGrid(size=4, x=(0, 1), topology=(Periodic, Flat, Flat))</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">4×1×1 RectilinearGrid{Float64, Periodic, Flat, Flat} on CPU with 3×0×0 halo
+├── Periodic x ∈ [0.0, 1.0) regularly spaced with Δx=0.25
+├── Flat y                  
+└── Flat z                  </code></pre><h2 id="Top-boundary-conditions"><a class="docs-heading-anchor" href="#Top-boundary-conditions">Top boundary conditions</a><a id="Top-boundary-conditions-1"></a><a class="docs-heading-anchor-permalink" href="#Top-boundary-conditions" title="Permalink"></a></h2><p>We prescribe different solar insolation values for each grid cell, ranging from -600 to -1200 W m⁻² (negative values indicate downward/into the ice):</p><pre><code class="language-julia hljs">solar_insolation = [-600, -800, -1000, -1200] # W m⁻²
+solar_insolation = reshape(solar_insolation, (4, 1, 1))</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">4×1×1 Array{Int64, 3}:
+[:, :, 1] =
+  -600
+  -800
+ -1000
+ -1200</code></pre><p>The ice also emits longwave radiation from its top surface:</p><pre><code class="language-julia hljs">outgoing_radiation = RadiativeEmission()</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">RadiativeEmission(emissivity = Float64, stefan_boltzmann_constant = Float64, reference_temperature = Float64)</code></pre><h2 id="Sensible-heat-flux-parameterization"><a class="docs-heading-anchor" href="#Sensible-heat-flux-parameterization">Sensible heat flux parameterization</a><a id="Sensible-heat-flux-parameterization-1"></a><a class="docs-heading-anchor-permalink" href="#Sensible-heat-flux-parameterization" title="Permalink"></a></h2><p>The sensible heat flux from the atmosphere is represented by a <code>FluxFunction</code>. We define the parameters for the bulk formula:</p><pre><code class="language-julia hljs">parameters = (
+    transfer_coefficient     = 1e-3,  # unitless
+    atmosphere_density       = 1.225, # kg m⁻³
+    atmosphere_heat_capacity = 1004,  # J kg⁻¹ K⁻¹
+    atmosphere_temperature   = -5,    # °C
+    atmosphere_wind_speed    = 5      # m s⁻¹
+)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">(transfer_coefficient = 0.001, atmosphere_density = 1.225, atmosphere_heat_capacity = 1004, atmosphere_temperature = -5, atmosphere_wind_speed = 5)</code></pre><p>The flux is positive (cooling by fluxing heat upward away from the upper surface) when the atmosphere temperature is less than the surface temperature:</p><pre><code class="language-julia hljs">@inline function sensible_heat_flux(i, j, grid, Tu, clock, fields, parameters)
+    Cs = parameters.transfer_coefficient
+    ρa = parameters.atmosphere_density
+    ca = parameters.atmosphere_heat_capacity
+    Ta = parameters.atmosphere_temperature
+    ua = parameters.atmosphere_wind_speed
+    ℵ  = fields.ℵ[i, j, 1]
+
+    return Cs * ρa * ca * ua * (Tu - Ta) * ℵ
+end
+
+aerodynamic_flux = FluxFunction(sensible_heat_flux; parameters)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">FluxFunction of sensible_heat_flux (generic function with 1 method) with parameters @NamedTuple{transfer_coefficient::Float64, atmosphere_density::Float64, atmosphere_heat_capacity::Int64, atmosphere_temperature::Int64, atmosphere_wind_speed::Int64}</code></pre><p>We combine all top heat fluxes into a tuple:</p><pre><code class="language-julia hljs">top_heat_flux = (outgoing_radiation, solar_insolation, aerodynamic_flux)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">(RadiativeEmission(emissivity = Float64, stefan_boltzmann_constant = Float64, reference_temperature = Float64), [-600; -800; -1000; -1200;;;], FluxFunction of sensible_heat_flux (generic function with 1 method) with parameters @NamedTuple{transfer_coefficient::Float64, atmosphere_density::Float64, atmosphere_heat_capacity::Int64, atmosphere_temperature::Int64, atmosphere_wind_speed::Int64})</code></pre><h2 id="Building-the-bare-ice-model"><a class="docs-heading-anchor" href="#Building-the-bare-ice-model">Building the bare-ice model</a><a id="Building-the-bare-ice-model-1"></a><a class="docs-heading-anchor-permalink" href="#Building-the-bare-ice-model" title="Permalink"></a></h2><pre><code class="language-julia hljs">bare_ice_model = SeaIceModel(grid;
+                         ice_consolidation_thickness = 0.05,
+                         top_heat_flux)
+
+set!(bare_ice_model, h=1, ℵ=1)</code></pre><h2 id="Building-the-snow-covered-model"><a class="docs-heading-anchor" href="#Building-the-snow-covered-model">Building the snow-covered model</a><a id="Building-the-snow-covered-model-1"></a><a class="docs-heading-anchor-permalink" href="#Building-the-snow-covered-model" title="Permalink"></a></h2><p>We add a 20 cm layer of snow on top of the ice. Snow has a much lower thermal conductivity (~0.31 W/m/K) than ice (~2 W/m/K), so it acts as an insulating blanket that reduces the conductive flux through the slab.</p><pre><code class="language-julia hljs">snow_thermodynamics = snow_slab_thermodynamics(grid)
+
+snowy_ice_model = SeaIceModel(grid;
+                         ice_consolidation_thickness = 0.05,
+                         top_heat_flux,
+                         snow_thermodynamics)
+
+set!(snowy_ice_model, h=1, ℵ=1, hs=0.2) # 20 cm of snow, no precipitation</code></pre><h2 id="Running-both-simulations"><a class="docs-heading-anchor" href="#Running-both-simulations">Running both simulations</a><a id="Running-both-simulations-1"></a><a class="docs-heading-anchor-permalink" href="#Running-both-simulations" title="Permalink"></a></h2><p>We run both for 30 days with a 10-minute time step, collecting time series for all four columns:</p><pre><code class="language-julia hljs">Δt = 10minute</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">600.0</code></pre><p>Bare-ice simulation:</p><pre><code class="language-julia hljs">simulation_bare = Simulation(bare_ice_model, Δt=Δt, stop_time=30days)
+
+series_bare = []
+
+function accumulate_bare(sim)
+    T = sim.model.ice_thermodynamics.top_surface_temperature
+    h = sim.model.ice_thickness
+    ℵ = sim.model.ice_concentration
+    push!(series_bare, (time(sim),
+                        h[1, 1, 1], ℵ[1, 1, 1], T[1, 1, 1],
+                        h[2, 1, 1], ℵ[2, 1, 1], T[2, 1, 1],
+                        h[3, 1, 1], ℵ[3, 1, 1], T[3, 1, 1],
+                        h[4, 1, 1], ℵ[4, 1, 1], T[4, 1, 1]))
+end
+
+simulation_bare.callbacks[:save] = Callback(accumulate_bare)
+run!(simulation_bare)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (826.814 ms)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (902.347 ms).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 2.374 seconds.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 30 days equals or exceeds stop time 30 days.</code></pre><p>Snow-covered simulation:</p><pre><code class="language-julia hljs">snowy_ice_simulation = Simulation(snowy_ice_model, Δt=Δt, stop_time=30days)
+
+series_snow = []
+
+function accumulate_snow(sim)
+    m  = sim.model
+    Tu = m.snow_thermodynamics.top_surface_temperature
+    h  = m.ice_thickness
+    ℵ  = m.ice_concentration
+    hs = m.snow_thickness
+    push!(series_snow, (time(sim),
+                        h[1, 1, 1], ℵ[1, 1, 1], Tu[1, 1, 1], hs[1, 1, 1],
+                        h[2, 1, 1], ℵ[2, 1, 1], Tu[2, 1, 1], hs[2, 1, 1],
+                        h[3, 1, 1], ℵ[3, 1, 1], Tu[3, 1, 1], hs[3, 1, 1],
+                        h[4, 1, 1], ℵ[4, 1, 1], Tu[4, 1, 1], hs[4, 1, 1]))
+end
+
+snowy_ice_simulation.callbacks[:save] = Callback(accumulate_snow)
+run!(snowy_ice_simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (157.576 ms)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (905.199 ms).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 1.769 seconds.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 30 days equals or exceeds stop time 30 days.</code></pre><h2 id="Resolved-column-bare-ice-simulation"><a class="docs-heading-anchor" href="#Resolved-column-bare-ice-simulation">Resolved-column bare-ice simulation</a><a id="Resolved-column-bare-ice-simulation-1"></a><a class="docs-heading-anchor-permalink" href="#Resolved-column-bare-ice-simulation" title="Permalink"></a></h2><p><code>ColumnEnergyThermodynamics</code> reads the same <code>top_heat_flux</code> tuple as the slab, so we melt the same four bare-ice columns with a vertically-resolved column to compare. We give the columns a <code>SeaIceColumnDiscretization</code> grid (a vertical coordinate added to the same four horizontal cells) and the same forcing and consolidation thickness.</p><pre><code class="language-julia hljs">column_grid = RectilinearGrid(size=(4, 16), x=(0, 1),
+                              z=SeaIceColumnDiscretization((0, 2)),
+                              topology=(Periodic, Flat, Bounded))
+
+column_thermodynamics = prescribed_salinity_enthalpy_thermodynamics(column_grid;
+    salinity_profile = 0,
+    energy_transport = ConductiveTemperatureTransport(conductivity = 2),
+    heat_boundary_conditions = (top = MeltingConstrainedFluxBalance(),
+                                bottom = IceWaterThermalEquilibrium(salinity = 0)))
+
+column_ice_model = SeaIceModel(column_grid;
+                              ice_consolidation_thickness = 0.05,
+                              ice_thermodynamics = column_thermodynamics,
+                              top_heat_flux)
+
+set!(column_ice_model, h=1, ℵ=1)
+initialize_column_interfaces!(column_grid, column_ice_model.ice_thickness)
+set!(column_thermodynamics; bulk_salinity = 0, temperature = -2)
+
+column_simulation = Simulation(column_ice_model, Δt=Δt, stop_time=30days)
+
+series_column = []
+function accumulate_column(sim)
+    h = sim.model.ice_thickness
+    ℵ = sim.model.ice_concentration
+    push!(series_column, (time(sim),
+                          h[1, 1, 1], ℵ[1, 1, 1],
+                          h[2, 1, 1], ℵ[2, 1, 1],
+                          h[3, 1, 1], ℵ[3, 1, 1],
+                          h[4, 1, 1], ℵ[4, 1, 1]))
+end
+column_simulation.callbacks[:save] = Callback(accumulate_column)
+run!(column_simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (714.531 ms)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (6.667 seconds).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 9.261 seconds.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 30 days equals or exceeds stop time 30 days.</code></pre><h2 id="Extracting-the-time-series"><a class="docs-heading-anchor" href="#Extracting-the-time-series">Extracting the time series</a><a id="Extracting-the-time-series-1"></a><a class="docs-heading-anchor-permalink" href="#Extracting-the-time-series" title="Permalink"></a></h2><pre><code class="language-julia hljs">t_bare = [d[1]  for d in series_bare]
+h_bare = [[d[3*(c-1)+2] for d in series_bare] for c in 1:4]
+ℵ_bare = [[d[3*(c-1)+3] for d in series_bare] for c in 1:4]
+T_bare = [[d[3*(c-1)+4] for d in series_bare] for c in 1:4]
+
+t_snow = [d[1]  for d in series_snow]
+h_snow  = [[d[4*(c-1)+2] for d in series_snow] for c in 1:4]
+ℵ_snow  = [[d[4*(c-1)+3] for d in series_snow] for c in 1:4]
+T_snow  = [[d[4*(c-1)+4] for d in series_snow] for c in 1:4]
+hs_snow = [[d[4*(c-1)+5] for d in series_snow] for c in 1:4]
+
+t_column = [d[1]  for d in series_column]
+h_column = [[d[2*(c-1)+2] for d in series_column] for c in 1:4]
+ℵ_column = [[d[2*(c-1)+3] for d in series_column] for c in 1:4]</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">4-element Vector{Vector{Float64}}:
+ [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0  …  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+ [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0  …  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+ [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0  …  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+ [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0  …  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]</code></pre><h2 id="Visualizing-the-results"><a class="docs-heading-anchor" href="#Visualizing-the-results">Visualizing the results</a><a id="Visualizing-the-results-1"></a><a class="docs-heading-anchor-permalink" href="#Visualizing-the-results" title="Permalink"></a></h2><pre><code class="language-julia hljs">set_theme!(Theme(fontsize=18, linewidth=3))
+
+fig = Figure(size=(1200, 1000))
+
+colors = Makie.wong_colors()
+labels = [&quot;-600&quot;, &quot;-800&quot;, &quot;-1000&quot;, &quot;-1200&quot;]</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">4-element Vector{String}:
+ &quot;-600&quot;
+ &quot;-800&quot;
+ &quot;-1000&quot;
+ &quot;-1200&quot;</code></pre><p>Surface temperature</p><pre><code class="language-julia hljs">axT = Axis(fig[1, 1], ylabel=&quot;Surface temperature (°C)&quot;,
+           title=&quot;Surface temperature: bare (solid) vs snow-covered (dashed)&quot;)
+for c in 1:4
+    lines!(axT, t_bare ./ day, T_bare[c], color=colors[c], label=labels[c] * &quot; W/m²&quot;)
+    lines!(axT, t_snow ./ day, T_snow[c], color=colors[c], linestyle=:dash)
+end
+axislegend(axT, position=:rt)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Makie.Legend()</code></pre><p>Ice concentration</p><pre><code class="language-julia hljs">axℵ = Axis(fig[2, 1], ylabel=&quot;Ice concentration (-)&quot;,
+           title=&quot;Ice concentration: bare slab (solid), snow (dashed), resolved column (dotted)&quot;)
+for c in 1:4
+    lines!(axℵ, t_bare   ./ day, ℵ_bare[c],   color=colors[c])
+    lines!(axℵ, t_snow   ./ day, ℵ_snow[c],   color=colors[c], linestyle=:dash)
+    lines!(axℵ, t_column ./ day, ℵ_column[c], color=colors[c], linestyle=:dot)
+end</code></pre><p>Ice thickness — bare slab (solid), snow-covered slab (dashed), resolved bare column (dotted)</p><pre><code class="language-julia hljs">axh = Axis(fig[3, 1], ylabel=&quot;Ice thickness (m)&quot;,
+           title=&quot;Ice thickness: bare slab (solid), snow (dashed), resolved column (dotted)&quot;)
+for c in 1:4
+    lines!(axh, t_bare   ./ day, h_bare[c],   color=colors[c])
+    lines!(axh, t_snow   ./ day, h_snow[c],   color=colors[c], linestyle=:dash)
+    lines!(axh, t_column ./ day, h_column[c], color=colors[c], linestyle=:dot)
+end</code></pre><p>Snow thickness</p><pre><code class="language-julia hljs">axs = Axis(fig[4, 1], xlabel=&quot;Time (days)&quot;, ylabel=&quot;Snow thickness (m)&quot;,
+           title=&quot;Snow thickness evolution&quot;)
+for c in 1:4
+    lines!(axs, t_snow ./ day, hs_snow[c], color=colors[c])
+end
+
+save(&quot;melting_in_spring.png&quot;, fig)</code></pre><p><img src="../melting_in_spring.png" alt/></p><p>Key observations:</p><ul><li><strong>Snow insulates:</strong> snow-covered ice melts more slowly because the low conductivity snow layer reduces the conductive flux.</li><li><strong>Snow melts first:</strong> the snow layer disappears before the ice starts melting significantly from the top.</li><li><strong>Warmer surface:</strong> the snow surface is warmer than bare ice because the same heat flux produces a larger temperature drop across the more insulating snow+ice slab.</li></ul><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../freezing_bucket/">« Freezing bucket</a><a class="docs-footer-nextpage" href="../freezing_of_a_lake/">Freezing of a Lake »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Thursday 25 June 2026 07:57">Thursday 25 June 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

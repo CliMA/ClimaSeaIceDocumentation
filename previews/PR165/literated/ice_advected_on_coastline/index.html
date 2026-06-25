@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Ice advected on coastline · ClimaSeaIce.jl</title><meta name="title" content="Ice advected on coastline · ClimaSeaIce.jl"/><meta property="og:title" content="Ice advected on coastline · ClimaSeaIce.jl"/><meta property="twitter:title" content="Ice advected on coastline · ClimaSeaIce.jl"/><meta name="description" content="Documentation for ClimaSeaIce.jl."/><meta property="og:description" content="Documentation for ClimaSeaIce.jl."/><meta property="twitter:description" content="Documentation for ClimaSeaIce.jl."/><meta property="og:url" content="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/ice_advected_on_coastline/"/><meta property="twitter:url" content="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/ice_advected_on_coastline/"/><link rel="canonical" href="https://clima.github.io/ClimaSeaIceDocumentation/dev/literated/ice_advected_on_coastline/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">ClimaSeaIce.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Physics</span><ul><li><a class="tocitem" href="../../physics/thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../physics/column_energy_thermodynamics/">Column energy thermodynamics</a></li><li><a class="tocitem" href="../../physics/layered_snow_ice_implementation/">Layered snow + ice implementation</a></li><li><a class="tocitem" href="../../physics/dynamics_and_rheology/">Dynamics and Rheology</a></li></ul></li><li><span class="tocitem">Examples</span><ul><li><a class="tocitem" href="../freezing_bucket/">Freezing bucket</a></li><li><a class="tocitem" href="../melting_in_spring/">Melting in Spring</a></li><li><a class="tocitem" href="../freezing_of_a_lake/">Freezing of a Lake</a></li><li><a class="tocitem" href="../column_energy_comparison/">Column energy comparison</a></li><li><a class="tocitem" href="../ice_advected_by_anticyclone/">Ice advected by anticyclone</a></li><li class="is-active"><a class="tocitem" href>Ice advected on coastline</a><ul class="internal"><li><a class="tocitem" href="#Install-dependencies"><span>Install dependencies</span></a></li><li><a class="tocitem" href="#The-physical-domain"><span>The physical domain</span></a></li><li><a class="tocitem" href="#Grid-configuration"><span>Grid configuration</span></a></li><li><a class="tocitem" href="#Atmospheric-and-oceanic-forcing"><span>Atmospheric and oceanic forcing</span></a></li><li><a class="tocitem" href="#Model-configuration"><span>Model configuration</span></a></li><li><a class="tocitem" href="#Running-the-simulation"><span>Running the simulation</span></a></li><li><a class="tocitem" href="#Collecting-data"><span>Collecting data</span></a></li><li><a class="tocitem" href="#Visualizing-the-results"><span>Visualizing the results</span></a></li></ul></li><li><a class="tocitem" href="../arctic_basin_seasonal_cycle/">Arctic basin seasonal cycle</a></li></ul></li><li><span class="tocitem">Validation</span><ul><li><a class="tocitem" href="../../validation/bitz_lipscomb_cice/">Bitz-Lipscomb CICE</a></li></ul></li><li><a class="tocitem" href="../../timestepping/">Timestepping</a></li><li><span class="tocitem">Library</span><ul><li><a class="tocitem" href="../../library/outline/">Contents</a></li><li><a class="tocitem" href="../../library/public/">Public</a></li><li><a class="tocitem" href="../../library/internals/">Private</a></li><li><a class="tocitem" href="../../library/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Ice advected on coastline</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Ice advected on coastline</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/ClimaSeaIce.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/ClimaSeaIce.jl/blob/main/examples/ice_advected_on_coastline.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Ice-advected-on-coastline-example"><a class="docs-heading-anchor" href="#Ice-advected-on-coastline-example">Ice advected on coastline example</a><a id="Ice-advected-on-coastline-example-1"></a><a class="docs-heading-anchor-permalink" href="#Ice-advected-on-coastline-example" title="Permalink"></a></h1><p>This example simulates a solid block of ice moving against a triangular coastline in a periodic channel. The ice is driven by atmospheric winds and interacts with the coastline through immersed boundaries. This example demonstrates how to:</p><ul><li>set up a two-dimensional sea ice model with immersed boundaries,</li><li>prescribe atmospheric and oceanic stresses,</li><li>use elasto-visco-plastic rheology with split-explicit time stepping,</li><li>visualize the evolution of ice thickness, concentration, and velocity.</li></ul><h2 id="Install-dependencies"><a class="docs-heading-anchor" href="#Install-dependencies">Install dependencies</a><a id="Install-dependencies-1"></a><a class="docs-heading-anchor-permalink" href="#Install-dependencies" title="Permalink"></a></h2><p>First let&#39;s make sure we have all required packages installed.</p><pre><code class="language-julia hljs">using Pkg
+pkg&quot;add Oceananigans, ClimaSeaIce, CairoMakie&quot;</code></pre><h2 id="The-physical-domain"><a class="docs-heading-anchor" href="#The-physical-domain">The physical domain</a><a id="The-physical-domain-1"></a><a class="docs-heading-anchor-permalink" href="#The-physical-domain" title="Permalink"></a></h2><p>We set up a two-dimensional periodic channel with a triangular coastline:</p><pre><code class="language-julia hljs">using ClimaSeaIce
+using Oceananigans
+using Oceananigans.Units
+using Oceananigans.Operators
+using Printf
+using CairoMakie
+
+Lx = 512kilometers
+Ly = 256kilometers
+Nx = 256
+Ny = 128
+
+y_max = Ly / 2
+
+arch = CPU()</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Oceananigans.Architectures.CPU()</code></pre><h2 id="Grid-configuration"><a class="docs-heading-anchor" href="#Grid-configuration">Grid configuration</a><a id="Grid-configuration-1"></a><a class="docs-heading-anchor-permalink" href="#Grid-configuration" title="Permalink"></a></h2><p>We create a rectilinear grid with periodic boundaries in x and bounded boundaries in y:</p><pre><code class="language-julia hljs">grid = RectilinearGrid(arch; size = (Nx, Ny),
+                                x = (-Lx/2, Lx/2),
+                                y = (0, Ly),
+                             halo = (4, 4),
+                         topology = (Periodic, Bounded, Flat))</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">256×128×1 RectilinearGrid{Float64, Periodic, Bounded, Flat} on CPU with 4×4×0 halo
+├── Periodic x ∈ [-256000.0, 256000.0) regularly spaced with Δx=2000.0
+├── Bounded  y ∈ [0.0, 256000.0]       regularly spaced with Δy=2000.0
+└── Flat z                             </code></pre><p>We define a triangular coastline using an immersed boundary:</p><pre><code class="language-julia hljs">bottom(x, y) = ifelse(y &gt; y_max, 0,
+               ifelse(abs(x / Lx) * Nx + y / Ly * Ny &gt; 24, 0, 1))
+
+grid = ImmersedBoundaryGrid(grid, GridFittedBoundary(bottom))</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">256×128×1 ImmersedBoundaryGrid{Float64, Oceananigans.Grids.Periodic, Oceananigans.Grids.Bounded, Oceananigans.Grids.Flat} on CPU with 4×4×0 halo:
+├── immersed_boundary: Oceananigans.ImmersedBoundaries.GridFittedBoundary{Oceananigans.Fields.Field{Oceananigans.Grids.Center, Oceananigans.Grids.Center, Oceananigans.Grids.Center, Nothing, Oceananigans.Grids.RectilinearGrid{Float64, Oceananigans.Grids.Periodic, Oceananigans.Grids.Bounded, Oceananigans.Grids.Flat, Oceananigans.Grids.StaticVerticalDiscretization{Nothing, Nothing, Float64, Float64}, Float64, Float64, OffsetArrays.OffsetVector{Float64, StepRangeLen{Float64, Base.TwicePrecision{Float64}, Base.TwicePrecision{Float64}, Int64}}, OffsetArrays.OffsetVector{Float64, StepRangeLen{Float64, Base.TwicePrecision{Float64}, Base.TwicePrecision{Float64}, Int64}}, Oceananigans.Architectures.CPU}, Tuple{Colon, Colon, Colon}, OffsetArrays.OffsetArray{Bool, 3, Array{Bool, 3}}, Bool, Oceananigans.BoundaryConditions.FieldBoundaryConditions{Oceananigans.BoundaryConditions.BoundaryCondition{Oceananigans.BoundaryConditions.Periodic, Nothing}, Oceananigans.BoundaryConditions.BoundaryCondition{Oceananigans.BoundaryConditions.Periodic, Nothing}, Oceananigans.BoundaryConditions.NoFluxBoundaryCondition, Oceananigans.BoundaryConditions.NoFluxBoundaryCondition, Nothing, Nothing, Nothing, @NamedTuple{bottom_and_top::Nothing, south_and_north::KernelAbstractions.Kernel{KernelAbstractions.CPU, KernelAbstractions.NDIteration.StaticSize{(256, 1)}, Oceananigans.Utils.OffsetStaticSize{(1:256, 1:1)}, typeof(Oceananigans.BoundaryConditions.cpu__fill_south_and_north_halo!)}, west_and_east::Oceananigans.BoundaryConditions.PeriodicFillHalo{KernelAbstractions.Kernel{KernelAbstractions.CPU, KernelAbstractions.NDIteration.StaticSize{(136, 1)}, Oceananigans.Utils.OffsetStaticSize{(1:136, 1:1)}, typeof(Oceananigans.BoundaryConditions.cpu__fill_periodic_west_and_east_halo!)}, 256, 4}}, @NamedTuple{bottom_and_top::Tuple{Nothing, Nothing}, south_and_north::Tuple{Oceananigans.BoundaryConditions.NoFluxBoundaryCondition, Oceananigans.BoundaryConditions.NoFluxBoundaryCondition}, west_and_east::Tuple{Oceananigans.BoundaryConditions.BoundaryCondition{Oceananigans.BoundaryConditions.Periodic, Nothing}, Oceananigans.BoundaryConditions.BoundaryCondition{Oceananigans.BoundaryConditions.Periodic, Nothing}}}}, Nothing, Nothing}}
+├── underlying_grid: 256×128×1 RectilinearGrid{Float64, Periodic, Bounded, Flat} on CPU with 4×4×0 halo
+├── Periodic x ∈ [-256000.0, 256000.0) regularly spaced with Δx=2000.0
+├── Bounded  y ∈ [0.0, 256000.0]       regularly spaced with Δy=2000.0
+└── Flat z                             </code></pre><h2 id="Atmospheric-and-oceanic-forcing"><a class="docs-heading-anchor" href="#Atmospheric-and-oceanic-forcing">Atmospheric and oceanic forcing</a><a id="Atmospheric-and-oceanic-forcing-1"></a><a class="docs-heading-anchor-permalink" href="#Atmospheric-and-oceanic-forcing" title="Permalink"></a></h2><p>We set up atmospheric wind stress. The atmosphere has a constant wind speed:</p><pre><code class="language-julia hljs">𝓋ₐ = 10.0   # m s⁻¹
+Cᴰ = 1.2e-3 # atmosphere-sea ice drag coefficient
+ρₐ = 1.3    # kg m⁻³</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">1.3</code></pre><p>We create a field for the atmospheric wind and compute the stress:</p><pre><code class="language-julia hljs">Ua = XFaceField(grid)
+τᵤ = Field(- ρₐ * Cᴰ * Ua^2)
+set!(Ua, 𝓋ₐ)
+compute!(τᵤ)
+Oceananigans.BoundaryConditions.fill_halo_regions!(τᵤ)
+τᵥ = 0.0</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">0.0</code></pre><p>The ocean stress is represented by a semi-implicit stress with zero ocean velocity:</p><pre><code class="language-julia hljs">τₒ = SemiImplicitStress()</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">SemiImplicitStress
+├── τᵢᵤ: Nothing
+├── τᵢᵥ: Nothing
+├── uₑ:  ZeroField{Float64}
+├── vₑ:  ZeroField{Float64}
+├── ρₑ:  1026.0
+└── Cᴰ:  0.0055</code></pre><h2 id="Model-configuration"><a class="docs-heading-anchor" href="#Model-configuration">Model configuration</a><a id="Model-configuration-1"></a><a class="docs-heading-anchor-permalink" href="#Model-configuration" title="Permalink"></a></h2><p>We use an elasto-visco-plastic rheology and WENO seventh order for advection of ice thickness and concentration:</p><pre><code class="language-julia hljs">dynamics = SeaIceMomentumEquation(grid;
+                                  top_momentum_stress = (u=τᵤ, v=τᵥ),
+                                  bottom_momentum_stress = τₒ,
+                                  rheology = ElastoViscoPlasticRheology(),
+                                  solver = SplitExplicitSolver(substeps=150))
+
+@inline immersed_u_drag(i, j, k, grid, clock, fields, Cᴰ) = @inbounds - Cᴰ * fields.u[i, j, k]
+@inline immersed_v_drag(i, j, k, grid, clock, fields, Cᴰ) = @inbounds - Cᴰ * fields.v[i, j, k]
+
+immersed_u_bc = FluxBoundaryCondition(immersed_u_drag, discrete_form=true, parameters=3e-3)
+immersed_v_bc = FluxBoundaryCondition(immersed_v_drag, discrete_form=true, parameters=3e-3)
+
+immersed_u_bc = ImmersedBoundaryCondition(top=nothing, bottom=nothing, west=nothing,  east=nothing,  south=immersed_u_bc, north=immersed_u_bc)
+immersed_v_bc = ImmersedBoundaryCondition(top=nothing, bottom=nothing, south=nothing, north=nothing, west=immersed_v_bc,  east=immersed_v_bc)
+
+u_bcs = FieldBoundaryConditions(grid, (Face(), Center(), nothing);
+                                north = ValueBoundaryCondition(0),
+                                south = ValueBoundaryCondition(0),
+                                immersed = immersed_u_bc)
+
+v_bcs = FieldBoundaryConditions(grid, (Center(), Face(), nothing);
+                                immersed = immersed_v_bc)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Oceananigans.FieldBoundaryConditions, with boundary conditions
+├── west: PeriodicBoundaryCondition
+├── east: PeriodicBoundaryCondition
+├── south: Nothing
+├── north: Nothing
+├── bottom: Nothing
+├── top: Nothing
+└── immersed: ImmersedBoundaryCondition with west=Flux, east=Flux, south=Nothing, north=Nothing, bottom=Nothing, top=Nothing</code></pre><p>We define the model with WENO advection and no thermodynamics:</p><pre><code class="language-julia hljs">model = SeaIceModel(grid;
+                    advection = WENO(order=7),
+                    dynamics = dynamics,
+                    boundary_conditions = (; u=u_bcs, v=v_bcs),
+                    ice_thermodynamics = nothing)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">SeaIceModel{Oceananigans.Architectures.CPU, Oceananigans.ImmersedBoundaries.ImmersedBoundaryGrid}(time = 0 seconds, iteration = 0)
+├── grid: 256×128×1 ImmersedBoundaryGrid{Float64, Oceananigans.Grids.Periodic, Oceananigans.Grids.Bounded, Oceananigans.Grids.Flat} on CPU with 4×4×0 halo
+├── timestepper: SplitRungeKuttaTimeStepper(3)
+├── ice_thermodynamics: Nothing
+├── snow_thermodynamics: Nothing
+├── advection: WENO{4, Float64, Oceananigans.Utils.BackendOptimizedDivision}(order=7)
+└── external_heat_fluxes: 
+    ├── top: Nothing
+    └── bottom: Int64</code></pre><p>We initialize the model with uniform ice thickness and concentration:</p><pre><code class="language-julia hljs">set!(model, h = 1)
+set!(model, ℵ = 1)</code></pre><h2 id="Running-the-simulation"><a class="docs-heading-anchor" href="#Running-the-simulation">Running the simulation</a><a id="Running-the-simulation-1"></a><a class="docs-heading-anchor-permalink" href="#Running-the-simulation" title="Permalink"></a></h2><p>We run the model for 3 days with a 5-minute time step:</p><pre><code class="language-julia hljs">simulation = Simulation(model, Δt = 5minutes, stop_time=3days)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Simulation of SeaIceModel
+├── Next time step: 5 minutes
+├── run_wall_time: 0 seconds
+├── run_wall_time / iteration: NaN days
+├── stop_time: 3 days
+├── stop_iteration: Inf
+├── wall_time_limit: Inf
+├── minimum_relative_step: 0.0
+├── callbacks: OrderedDict with 3 entries:
+│   ├── stop_time_exceeded =&gt; Callback of stop_time_exceeded on IterationInterval(1)
+│   ├── stop_iteration_exceeded =&gt; Callback of stop_iteration_exceeded on IterationInterval(1)
+│   └── wall_time_limit_exceeded =&gt; Callback of wall_time_limit_exceeded on IterationInterval(1)
+└── output_writers: OrderedDict with no entries</code></pre><h2 id="Collecting-data"><a class="docs-heading-anchor" href="#Collecting-data">Collecting data</a><a id="Collecting-data-1"></a><a class="docs-heading-anchor-permalink" href="#Collecting-data" title="Permalink"></a></h2><p>We set up containers to hold the time series data:</p><pre><code class="language-julia hljs">htimeseries = []
+ℵtimeseries = []
+utimeseries = []
+vtimeseries = []
+
+function accumulate_timeseries(sim)
+    h = sim.model.ice_thickness
+    ℵ = sim.model.ice_concentration
+    u = sim.model.velocities.u
+    v = sim.model.velocities.v
+    push!(htimeseries, deepcopy(Array(interior(h))))
+    push!(ℵtimeseries, deepcopy(Array(interior(ℵ))))
+    push!(utimeseries, deepcopy(Array(interior(u))))
+    push!(vtimeseries, deepcopy(Array(interior(v))))
+end
+
+simulation.callbacks[:save]     = Callback(accumulate_timeseries, IterationInterval(10))
+
+run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (3.855 seconds)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (10.028 seconds).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 31.030 minutes.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 3 days equals or exceeds stop time 3 days.</code></pre><h2 id="Visualizing-the-results"><a class="docs-heading-anchor" href="#Visualizing-the-results">Visualizing the results</a><a id="Visualizing-the-results-1"></a><a class="docs-heading-anchor-permalink" href="#Visualizing-the-results" title="Permalink"></a></h2><p>We create an animation of the ice thickness, concentration, and velocity fields:</p><pre><code class="language-julia hljs">Nt = length(htimeseries)
+iter = Observable(1)
+
+hi = @lift(htimeseries[$iter][:, :, 1])
+ℵi = @lift(ℵtimeseries[$iter][:, :, 1])
+ui = @lift(utimeseries[$iter][:, :, 1])
+vi = @lift(vtimeseries[$iter][:, :, 1])
+
+fig = Figure(size = (1000, 500))
+ax = Axis(fig[1, 1], title = &quot;Sea ice thickness (m)&quot;)
+heatmap!(ax, hi, colormap = :magma, colorrange = (0.0, 2.0))
+
+ax = Axis(fig[1, 2], title = &quot;Sea ice concentration&quot;)
+heatmap!(ax, ℵi, colormap = Reverse(:deep), colorrange = (0.0, 1))
+
+ax = Axis(fig[2, 1], title = &quot;Zonal velocity (m s⁻¹)&quot;)
+heatmap!(ax, ui, colorrange = (0, 0.12), colormap = :balance)
+
+ax = Axis(fig[2, 2], title = &quot;Meridional velocity (m s⁻¹)&quot;)
+heatmap!(ax, vi, colorrange = (-0.025, 0.025), colormap = :bwr)
+
+CairoMakie.record(fig, &quot;sea_ice_advected_on_coastline.mp4&quot;, 1:Nt, framerate = 8) do i
+    iter[] = i
+    @info &quot;Rendering frame $i&quot;
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 1
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 2
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 3
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 4
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 5
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 6
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 7
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 8
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 9
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 10
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 11
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 12
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 13
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 14
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 15
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 16
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 17
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 18
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 19
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 20
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 21
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 22
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 23
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 24
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 25
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 26
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 27
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 28
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 29
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 30
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 31
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 32
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 33
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 34
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 35
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 36
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 37
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 38
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 39
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 40
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 41
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 42
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 43
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 44
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 45
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 46
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 47
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 48
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 49
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 50
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 51
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 52
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 53
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 54
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 55
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 56
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 57
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 58
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 59
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 60
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 61
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 62
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 63
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 64
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 65
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 66
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 67
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 68
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 69
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 70
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 71
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 72
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 73
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 74
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 75
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 76
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 77
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 78
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 79
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 80
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 81
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 82
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 83
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 84
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 85
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 86
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 87</code></pre><p><video src="../sea_ice_advected_on_coastline.mp4" controls="true" title><a href="../sea_ice_advected_on_coastline.mp4"></a></video></p><p>The animation shows how the ice block moves and deforms as it interacts with the triangular coastline. The ice accumulates and thickens near the coast due to the no-slip boundary conditions.</p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../ice_advected_by_anticyclone/">« Ice advected by anticyclone</a><a class="docs-footer-nextpage" href="../arctic_basin_seasonal_cycle/">Arctic basin seasonal cycle »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Thursday 25 June 2026 07:57">Thursday 25 June 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
