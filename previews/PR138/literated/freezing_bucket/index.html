@@ -50,10 +50,10 @@ function accumulate_timeseries(sim)
 end
 
 simulation.callbacks[:save] = Callback(accumulate_timeseries)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Callback of accumulate_timeseries on IterationInterval(1)</code></pre><p>Now we&#39;re ready to run the simulation:</p><pre><code class="language-julia hljs">run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (153.663 ms)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (142.132 ms)
 <span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (628.984 ms).
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 792.631 ms.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (606.550 ms).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 758.087 ms.
 <span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 10 days equals or exceeds stop time 10 days.</code></pre><h2 id="Visualizing-the-results"><a class="docs-heading-anchor" href="#Visualizing-the-results">Visualizing the results</a><a id="Visualizing-the-results-1"></a><a class="docs-heading-anchor-permalink" href="#Visualizing-the-results" title="Permalink"></a></h2><p>It&#39;d be a shame to run such a &quot;cool&quot; simulation without looking at the results. We&#39;ll visualize it with Makie:</p><p><code>timeseries</code> is a <code>Vector</code> of <code>Tuple</code>. So we have to do a bit of processing to build <code>Vector</code>s of time <code>t</code> and thickness <code>h</code>. It&#39;s not much work though:</p><pre><code class="language-julia hljs">t = [datum[1] for datum in timeseries]
 h = [datum[2] for datum in timeseries]
 ℵ = [datum[3] for datum in timeseries]
@@ -69,15 +69,15 @@ V = h .* ℵ</code></pre><pre class="documenter-example-output"><code class="noh
  0.005510296660203651
  0.006273747637690019
  ⋮
- 0.326016204758777
- 0.32613847917752375
- 0.3262607081800433
- 0.3263828918161829
- 0.32650503013569987
- 0.32662712318826226
- 0.32674917102344875
- 0.32687117369074903
- 0.3269931312395639</code></pre><p>Just for fun, we also compute the velocity of the ice-water interface:</p><pre><code class="language-julia hljs">dVdt = @. (h[2:end] .* ℵ[2:end] - h[1:end-1] .* ℵ[1:end-1]) / simulation.Δt</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">1440-element Vector{Float64}:
+ 0.32601620475877696
+ 0.3261384791775237
+ 0.32626070818004327
+ 0.32638289181618285
+ 0.3265050301356998
+ 0.3266271231882622
+ 0.3267491710234487
+ 0.326871173690749
+ 0.32699313123956386</code></pre><p>Just for fun, we also compute the velocity of the ice-water interface:</p><pre><code class="language-julia hljs">dVdt = @. (h[2:end] .* ℵ[2:end] - h[1:end-1] .* ℵ[1:end-1]) / simulation.Δt</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">1440-element Vector{Float64}:
  3.3266799733865597e-9
  1.3339985365264147e-6
  1.3338922967203154e-6
@@ -109,4 +109,4 @@ lines!(axh, t ./ day, 1e2 .* h)
 lines!(axℵ, t ./ day, ℵ)
 lines!(axV, 1e2 .* V[1:end-1], 1e6 .* dVdt)
 
-save(&quot;freezing_bucket.png&quot;, fig)</code></pre><p><img src="../freezing_bucket.png" alt/></p><p>If you want more ice, you can increase <code>simulation.stop_time</code> and <code>run!(simulation)</code> again (or just re-run the whole script).</p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../physics/discrete_strain_and_stress/">« Discrete strain and stress</a><a class="docs-footer-nextpage" href="../melting_in_spring/">Melting in Spring »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Wednesday 22 July 2026 22:56">Wednesday 22 July 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+save(&quot;freezing_bucket.png&quot;, fig)</code></pre><p><img src="../freezing_bucket.png" alt/></p><p>If you want more ice, you can increase <code>simulation.stop_time</code> and <code>run!(simulation)</code> again (or just re-run the whole script).</p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../physics/discrete_strain_and_stress/">« Discrete strain and stress</a><a class="docs-footer-nextpage" href="../melting_in_spring/">Melting in Spring »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Thursday 23 July 2026 14:21">Thursday 23 July 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

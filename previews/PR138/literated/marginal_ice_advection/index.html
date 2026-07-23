@@ -135,10 +135,10 @@ simulation.output_writers[:sea_ice] = JLD2Writer(model, outputs;
 └── file size: 0 bytes (file not yet created)</code></pre><p>We can finally run the simulation</p><pre><code class="language-julia hljs">run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
 <span class="sgr33"><span class="sgr1">┌ Warning: </span></span>error ArgumentError(&quot;a group or dataset named grid is already present within this group&quot;) thrown when trying to serialize the grid at serialized/grid
 <span class="sgr33"><span class="sgr1">└ </span></span><span class="sgr90">@ Oceananigans.OutputWriters ~/.julia/packages/Oceananigans/p6AAO/src/OutputWriters/jld2_writer.jl:234</span>
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (34.242 seconds)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (29.985 seconds)
 <span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (4.882 seconds).
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 23.006 minutes.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (7.218 seconds).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 22.702 minutes.
 <span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 5 days equals or exceeds stop time 5 days.</code></pre><h2 id="Visualizing-the-results"><a class="docs-heading-anchor" href="#Visualizing-the-results">Visualizing the results</a><a id="Visualizing-the-results-1"></a><a class="docs-heading-anchor-permalink" href="#Visualizing-the-results" title="Permalink"></a></h2><p>We load the saved time series and create an animation:</p><pre><code class="language-julia hljs">htimeseries = FieldTimeSeries(&quot;marginal_ice_advection.jld2&quot;, &quot;h&quot;)
 utimeseries = FieldTimeSeries(&quot;marginal_ice_advection.jld2&quot;, &quot;u&quot;)
 vtimeseries = FieldTimeSeries(&quot;marginal_ice_advection.jld2&quot;, &quot;v&quot;)
@@ -147,167 +147,22 @@ vtimeseries = FieldTimeSeries(&quot;marginal_ice_advection.jld2&quot;, &quot;v&q
 Nt = length(htimeseries)
 iter = Observable(1)
 
-hi = @lift(interior(htimeseries[$iter], :, :, 1))
+𝒱i = @lift(interior(ℵtimeseries[$iter], :, :, 1) .* interior(htimeseries[$iter], :, :, 1))
 ℵi = @lift(interior(ℵtimeseries[$iter], :, :, 1))
 ui = @lift(interior(utimeseries[$iter], :, :, 1))
 vi = @lift(interior(vtimeseries[$iter], :, :, 1))
 
 fig = Figure(size = (1200, 800))
-ax1 = Axis(fig[1, 1], title = &quot;Sea ice thickness (m)&quot;)
+ax1 = Axis(fig[1, 1], title = &quot;Sea ice volume per area, ℵh (m)&quot;)
 ax2 = Axis(fig[1, 2], title = &quot;Sea ice concentration&quot;)
 ax3 = Axis(fig[2, 1], title = &quot;Zonal velocity (m s⁻¹)&quot;)
 ax4 = Axis(fig[2, 2], title = &quot;Meridional velocity (m s⁻¹)&quot;)
 
-heatmap!(ax1, hi, colormap = :magma,          colorrange = (0.0, 1.5))
+heatmap!(ax1, 𝒱i, colormap = :magma,          colorrange = (0.0, 1.0))
 heatmap!(ax2, ℵi, colormap = Reverse(:deep),  colorrange = (0.0, 1.0))
 heatmap!(ax3, ui, colormap = :balance,        colorrange = (-0.2, 0.2))
 heatmap!(ax4, vi, colormap = :balance,        colorrange = (-0.2, 0.2))
 
 CairoMakie.record(fig, &quot;marginal_ice_advection.mp4&quot;, 1:Nt, framerate = 8) do i
     iter[] = i
-    @info &quot;Rendering frame $i&quot;
-end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 1
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 2
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 3
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 4
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 5
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 6
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 7
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 8
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 9
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 10
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 11
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 12
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 13
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 14
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 15
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 16
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 17
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 18
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 19
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 20
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 21
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 22
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 23
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 24
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 25
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 26
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 27
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 28
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 29
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 30
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 31
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 32
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 33
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 34
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 35
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 36
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 37
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 38
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 39
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 40
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 41
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 42
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 43
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 44
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 45
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 46
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 47
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 48
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 49
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 50
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 51
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 52
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 53
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 54
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 55
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 56
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 57
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 58
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 59
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 60
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 61
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 62
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 63
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 64
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 65
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 66
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 67
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 68
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 69
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 70
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 71
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 72
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 73
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 74
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 75
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 76
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 77
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 78
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 79
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 80
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 81
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 82
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 83
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 84
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 85
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 86
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 87
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 88
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 89
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 90
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 91
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 92
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 93
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 94
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 95
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 96
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 97
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 98
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 99
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 100
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 101
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 102
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 103
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 104
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 105
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 106
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 107
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 108
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 109
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 110
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 111
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 112
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 113
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 114
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 115
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 116
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 117
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 118
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 119
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 120
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 121
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 122
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 123
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 124
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 125
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 126
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 127
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 128
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 129
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 130
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 131
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 132
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 133
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 134
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 135
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 136
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 137
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 138
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 139
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 140
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 141
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 142
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 143
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 144
-<span class="sgr36"><span class="sgr1">[ Info: </span></span>Rendering frame 145</code></pre><p><video src="../marginal_ice_advection.mp4" controls="true" title><a href="../marginal_ice_advection.mp4"></a></video></p><p>The animation shows the ice block being advected eastward by the uniform ocean current while being progressively deformed as the cyclone passes overhead. Ridges and leads form along the ice edges as the cyclone&#39;s swirling winds compress and shear the marginal ice cover.</p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../ice_advected_by_anticyclone/">« Ice advected by anticyclone</a><a class="docs-footer-nextpage" href="../ice_advected_on_coastline/">Ice advected on coastline »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Wednesday 22 July 2026 22:56">Wednesday 22 July 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+end</code></pre><p><video src="../marginal_ice_advection.mp4" controls="true" title><a href="../marginal_ice_advection.mp4"></a></video></p><p>The animation shows the ice block being advected eastward by the uniform ocean current while being progressively deformed as the cyclone passes overhead. Ridges and leads form along the ice edges as the cyclone&#39;s swirling winds compress and shear the marginal ice cover.</p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../ice_advected_by_anticyclone/">« Ice advected by anticyclone</a><a class="docs-footer-nextpage" href="../ice_advected_on_coastline/">Ice advected on coastline »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Thursday 23 July 2026 14:21">Thursday 23 July 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
